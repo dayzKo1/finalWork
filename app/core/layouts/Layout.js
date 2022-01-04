@@ -56,7 +56,7 @@ const Layout = ({ title, children }) => {
         <title>{title}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* 顶部 */}
+      {/* 顶部菜单 */}
       <div>
         <Menu
           style={{ width: 1200 }}
@@ -68,7 +68,7 @@ const Layout = ({ title, children }) => {
             <Link href={Routes.Home()}>首页</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<MailOutlined />}>
-            <Link href={Routes.Home()}>首页</Link>
+            <Link href={Routes.QuestionsPage()}>问题</Link>
           </Menu.Item>
           <Menu.Item key="3" icon={<SettingOutlined />}>
             <Link href={Routes.Home()}>首页</Link>
@@ -81,6 +81,7 @@ const Layout = ({ title, children }) => {
           </Suspense>
         </Menu>
       </div>
+
       {/* 主体 */}
       <main>{children}</main>
       {/* 页脚 */}
@@ -131,13 +132,11 @@ const Layout = ({ title, children }) => {
           align-items: center;
           background-color: #45009d;
         }
-
         footer a {
           display: flex;
           justify-content: center;
           align-items: center;
         }
-
         footer a {
           color: #f4f4f4;
           text-decoration: none;
@@ -145,22 +144,19 @@ const Layout = ({ title, children }) => {
         p {
           text-align: center;
         }
-
         .logo {
           margin-bottom: 2rem;
         }
-
         .logo img {
           width: 300px;
         }
-
         .buttons {
           order: 4;
           margin-left: 44rem;
         }
         .buttons2 {
           order: 4;
-          margin-left: 42rem;
+          margin-left: 39rem;
         }
         .button {
           font-size: 0.8rem;
@@ -170,27 +166,22 @@ const Layout = ({ title, children }) => {
         .button.small {
           padding: 0.5rem 1rem;
         }
-
         .button:hover {
           color: #45009d;
         }
-
         .button:active {
           color: #45009d;
         }
-
         .button-outline {
           border: 2px solid #6700eb;
           padding: 1rem 2rem;
           color: #6700eb;
           text-align: center;
         }
-
         .button-outline:hover {
           border-color: #45009d;
           color: #45009d;
         }
-
         pre {
           background: #fafafa;
           border-radius: 5px;
@@ -202,7 +193,6 @@ const Layout = ({ title, children }) => {
           font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
             Bitstream Vera Sans Mono, Courier New, monospace;
         }
-
         .grid {
           display: flex;
           align-items: center;
@@ -212,7 +202,6 @@ const Layout = ({ title, children }) => {
           max-width: 800px;
           margin-top: 3rem;
         }
-
         @media (max-width: 600px) {
           .grid {
             width: 100%;

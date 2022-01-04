@@ -1,6 +1,7 @@
 import { AuthenticationError, Link, useMutation, Routes } from "blitz"
 import { LabeledTextField } from "app/core/components/LabeledTextField"
 import { Form, FORM_ERROR } from "app/core/components/Form"
+import Layout from "app/core/layouts/Layout"
 import login from "app/auth/mutations/login"
 import { Login } from "app/auth/validations"
 export const LoginForm = (props) => {
@@ -10,7 +11,7 @@ export const LoginForm = (props) => {
       <h1>登录</h1>
 
       <Form
-        submitText="Login"
+        submitText="确认"
         schema={Login}
         initialValues={{
           email: "",
@@ -47,4 +48,9 @@ export const LoginForm = (props) => {
     </div>
   )
 }
+
+LoginForm.authenticate = false
+
+LoginForm.getLayout = (page) => <Layout title="Log In">{page}</Layout>
+
 export default LoginForm

@@ -1,8 +1,6 @@
 import { Suspense } from "react"
 import { Image, Link, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
-import logout from "app/auth/mutations/logout"
-import logo from "public/logo.png"
 
 const Home = () => {
   return (
