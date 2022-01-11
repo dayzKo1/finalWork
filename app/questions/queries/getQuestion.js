@@ -9,7 +9,6 @@ export default resolver.pipe(resolver.zod(GetQuestion), resolver.authorize(), as
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
   const question = await db.question.findFirst({
     where: { id },
-
     include: { choices: true },
   })
   if (!question) throw new NotFoundError()

@@ -4,6 +4,9 @@ import React, { useState, Suspense } from "react"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import { MailOutlined, AppstoreOutlined, SettingOutlined, TrophyOutlined } from "@ant-design/icons"
+import Footer from "rc-footer"
+import "rc-footer/assets/index.css"
+
 const { SubMenu } = Menu
 
 const UserInfo = (props) => {
@@ -50,49 +53,44 @@ const UserInfo = (props) => {
 }
 const Layout = ({ title, children }) => {
   const [current, setCurrent] = useState("1")
+  const [theme, setTheme] = useState("dark")
   return (
-    <div className="container">
-      <Head>
-        <title>{title}</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      {/* 顶部菜单 */}
-      <div>
-        <Menu
-          style={{ width: 1200 }}
-          onClick={(e) => setCurrent(e.key)}
-          selectedKeys={[current]}
-          mode="horizontal"
-        >
-          <Menu.Item key="1" icon={<AppstoreOutlined />}>
-            <Link href={Routes.Home()}>首页</Link>
-          </Menu.Item>
-          <Menu.Item key="2" icon={<MailOutlined />}>
-            <Link href={Routes.QuestionsPage()}>问题</Link>
-          </Menu.Item>
-          <Menu.Item key="3" icon={<SettingOutlined />}>
-            <Link href={Routes.Home()}>首页</Link>
-          </Menu.Item>
-          <Menu.Item key="4" icon={<TrophyOutlined />}>
-            <Link href={Routes.Home()}>首页</Link>
-          </Menu.Item>
-          <Suspense fallback="Loading...">
-            <UserInfo setCurrent={setCurrent} />
-          </Suspense>
-        </Menu>
-      </div>
-
-      {/* 主体 */}
-      <main>{children}</main>
-      {/* 页脚 */}
-      <footer>
-        <a href="" target="_blank" rel="noopener noreferrer">
-          &copy;dayzKo1
-        </a>
-      </footer>
-
-      <style jsx global>{`
-        @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;700&display=swap");
+    <>
+      <div className="container">
+        <Head>
+          <title>{title}</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        {/* 顶部菜单 */}
+        <div style={{ width: "100%" }}>
+          <Menu
+            onClick={(e) => setCurrent(e.key)}
+            selectedKeys={[current]}
+            mode="horizontal"
+            theme="dark"
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <Menu.Item key="1" icon={<AppstoreOutlined />}>
+              <Link href={Routes.Home()}>首页</Link>
+            </Menu.Item>
+            <Menu.Item key="2" icon={<MailOutlined />}>
+              <Link href={Routes.QuestionsPage()}>问题</Link>
+            </Menu.Item>
+            <Menu.Item key="3" icon={<SettingOutlined />}>
+              <Link href={Routes.Home()}>首页</Link>
+            </Menu.Item>
+            <Menu.Item key="4" icon={<TrophyOutlined />}>
+              <Link href={Routes.Home()}>首页</Link>
+            </Menu.Item>
+            <Suspense fallback="Loading...">
+              <UserInfo setCurrent={setCurrent} />
+            </Suspense>
+          </Menu>
+        </div>
+        {/* 主体 */}
+        <main>{children}</main>
+        <style jsx global>{`
+        @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;700&display=swap"); */}
         html,
         body {
           padding: 0;
@@ -123,24 +121,6 @@ const Layout = ({ title, children }) => {
         main p {
           font-size: 1.2rem;
         }
-        footer {
-          width: 100%;
-          height: 60px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background-color: #45009d;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer a {
-          color: #f4f4f4;
-          text-decoration: none;
-        }
         p {
           text-align: center;
         }
@@ -152,11 +132,11 @@ const Layout = ({ title, children }) => {
         }
         .buttons {
           order: 4;
-          margin-left: 44rem;
+          margin-left:30rem;
         }
         .buttons2 {
           order: 4;
-          margin-left: 39rem;
+          margin-left:25rem;
         }
         .button {
           font-size: 0.8rem;
@@ -164,23 +144,11 @@ const Layout = ({ title, children }) => {
           text-align: center;
         }
         .button.small {
-          padding: 0.5rem 1rem;
+          color:hsla(0,0%,100%,.65);
+          padding: 0rem 1rem;
         }
         .button:hover {
-          color: #45009d;
-        }
-        .button:active {
-          color: #45009d;
-        }
-        .button-outline {
-          border: 2px solid #6700eb;
-          padding: 1rem 2rem;
-          color: #6700eb;
-          text-align: center;
-        }
-        .button-outline:hover {
-          border-color: #45009d;
-          color: #45009d;
+          color: #1890ff;
         }
         pre {
           background: #fafafa;
@@ -209,7 +177,111 @@ const Layout = ({ title, children }) => {
           }
         }
       `}</style>
-    </div>
+      </div>
+      {/* 页脚 */}
+      <Footer
+        maxColumnsPerRow={4}
+        theme={theme}
+        columns={[
+          {
+            title: "相关资源",
+            items: [
+              {
+                title: "Ant Design Pro",
+                url: "https://pro.ant.design/",
+                openExternal: true,
+              },
+              {
+                title: "Ant Design Mobile",
+                url: "https://mobile.ant.design/",
+                openExternal: true,
+              },
+              {
+                title: "Kitchen",
+                url: "https://kitchen.alipay.com/",
+                description: "Sketch 工具集",
+              },
+            ],
+          },
+          {
+            title: "社区",
+            items: [
+              {
+                title: "Ant Design Pro",
+                url: "https://pro.ant.design/",
+                openExternal: true,
+              },
+              {
+                title: "Ant Design Mobile",
+                url: "https://mobile.ant.design/",
+                openExternal: true,
+              },
+              {
+                title: "Kitchen",
+                url: "https://kitchen.alipay.com/",
+                description: "Sketch 工具集",
+              },
+            ],
+          },
+          {
+            title: "帮助",
+            items: [
+              {
+                title: "Ant Design Pro",
+                url: "https://pro.ant.design/",
+                openExternal: true,
+              },
+              {
+                title: "Ant Design Mobile",
+                url: "https://mobile.ant.design/",
+                openExternal: true,
+              },
+              {
+                title: "Kitchen",
+                url: "https://kitchen.alipay.com/",
+                description: "Sketch 工具集",
+              },
+            ],
+          },
+          {
+            icon: (
+              <img
+                src="https://gw.alipayobjects.com/zos/rmsportal/nBVXkrFdWHxbZlmMbsaH.svg"
+                alt="more products"
+              />
+            ),
+            title: "更多产品",
+            items: [
+              {
+                icon: (
+                  <img
+                    src="https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg"
+                    alt="yuque"
+                  />
+                ),
+                title: "语雀",
+                url: "https://yuque.com",
+                description: "知识创作与分享工具",
+                openExternal: true,
+              },
+              {
+                icon: (
+                  <img
+                    src="https://gw.alipayobjects.com/zos/rmsportal/uHocHZfNWZOdsRUonZNr.png"
+                    alt="yuque"
+                  />
+                ),
+                title: "云凤蝶",
+                url: "https://yunfengdie.com",
+                description: "中台建站平台",
+                openExternal: true,
+              },
+            ],
+          },
+        ]}
+        bottom="&copy;dayzKo1"
+      />
+    </>
   )
 }
 
