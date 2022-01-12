@@ -8,8 +8,7 @@ export const LoginForm = (props) => {
   const [loginMutation] = useMutation(login)
   return (
     <div>
-      <h1>登录</h1>
-
+      {props.unAuthenticated ? <h1>请登入您的账号！</h1> : <h1>登入</h1>}
       <Form
         submitText="确认"
         schema={Login}
@@ -24,12 +23,11 @@ export const LoginForm = (props) => {
           } catch (error) {
             if (error instanceof AuthenticationError) {
               return {
-                [FORM_ERROR]: "Sorry, those credentials are invalid",
+                [FORM_ERROR]: "抱歉，这些凭据无效",
               }
             } else {
               return {
-                [FORM_ERROR]:
-                  "Sorry, we had an unexpected error. Please try again. - " + error.toString(),
+                [FORM_ERROR]: "抱歉，我们遇到了意外错误。请重试。-" + error.toString(),
               }
             }
           }

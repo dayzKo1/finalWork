@@ -26,6 +26,6 @@ const Home = () => {
 
 Home.suppressFirstRenderFlicker = true
 
-Home.getLayout = (page) => <Layout title="人才招聘网站-首页">{page}</Layout>
+Home.getLayout = (page) => <Layout title="Home">{page}</Layout>
 
 export default Home

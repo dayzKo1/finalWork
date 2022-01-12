@@ -85,6 +85,6 @@ const QuestionsPage = () => {
 
 QuestionsPage.authenticate = true
 
-QuestionsPage.getLayout = (page) => <Layout>{page}</Layout>
+QuestionsPage.getLayout = (page) => <Layout title="Questions">{page}</Layout>
 
 export default QuestionsPage

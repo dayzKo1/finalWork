@@ -10,11 +10,13 @@ export const SignupForm = (props) => {
       <h1>创建账号</h1>
 
       <Form
-        submitText="Create Account"
+        submitText="确认"
         schema={Signup}
         initialValues={{
           email: "",
           password: "",
+          role: "",
+          name: "",
         }}
         onSubmit={async (values) => {
           try {
@@ -24,7 +26,7 @@ export const SignupForm = (props) => {
             if (error.code === "P2002" && error.meta?.target?.includes("email")) {
               // This error comes from Prisma
               return {
-                email: "This email is already being used",
+                email: "该邮箱已被使用",
               }
             } else {
               return {
@@ -34,8 +36,9 @@ export const SignupForm = (props) => {
           }
         }}
       >
+        <LabeledTextField name="name" label="Name" placeholder="Name" />
         <LabeledTextField name="email" label="Email" placeholder="Email" />
-        <LabeledTextField name="role" label="Role" placeholder="Role" type="" />
+        <LabeledTextField name="role" label="Role" placeholder="Role" type="Role" />
         <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
       </Form>
     </div>

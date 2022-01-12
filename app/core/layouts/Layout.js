@@ -7,17 +7,19 @@ import { MailOutlined, AppstoreOutlined, SettingOutlined, TrophyOutlined } from 
 import Footer from "rc-footer"
 import "rc-footer/assets/index.css"
 
-const { SubMenu } = Menu
-
 const UserInfo = (props) => {
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
   const { setCurrent } = props
-
   if (currentUser) {
     return (
       <>
         <div className="buttons2">
+          <Link href={Routes.SignupPage()}>
+            <a className="button small" onClick={() => setCurrent("0")}>
+              个人中心
+            </a>
+          </Link>
           <a
             className="button small"
             onClick={async () => {
@@ -27,7 +29,7 @@ const UserInfo = (props) => {
             退出
           </a>
           <span>
-            用户名：<code>{currentUser.email}</code>
+            用户名：<code>{currentUser.name}</code>
           </span>
         </div>
       </>
@@ -52,7 +54,7 @@ const UserInfo = (props) => {
   }
 }
 const Layout = ({ title, children }) => {
-  const [current, setCurrent] = useState("1")
+  const [current, setCurrent] = useState(title)
   const [theme, setTheme] = useState("dark")
   return (
     <>
@@ -70,17 +72,17 @@ const Layout = ({ title, children }) => {
             theme="dark"
             style={{ display: "flex", justifyContent: "center" }}
           >
-            <Menu.Item key="1" icon={<AppstoreOutlined />}>
+            <Menu.Item key="Home" icon={<AppstoreOutlined />}>
               <Link href={Routes.Home()}>首页</Link>
             </Menu.Item>
-            <Menu.Item key="2" icon={<MailOutlined />}>
+            <Menu.Item key="Questions" icon={<MailOutlined />}>
               <Link href={Routes.QuestionsPage()}>问题</Link>
             </Menu.Item>
-            <Menu.Item key="3" icon={<SettingOutlined />}>
-              <Link href={Routes.Home()}>首页</Link>
+            <Menu.Item key="Home1" icon={<SettingOutlined />}>
+              <Link href={Routes.Home()}>首页1</Link>
             </Menu.Item>
-            <Menu.Item key="4" icon={<TrophyOutlined />}>
-              <Link href={Routes.Home()}>首页</Link>
+            <Menu.Item key="Home2" icon={<TrophyOutlined />}>
+              <Link href={Routes.Home()}>首页2</Link>
             </Menu.Item>
             <Suspense fallback="Loading...">
               <UserInfo setCurrent={setCurrent} />
