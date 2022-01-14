@@ -8,9 +8,11 @@ import {
 import LoginForm from "app/auth/components/LoginForm"
 import "antd/dist/antd.min.css"
 
+let Layout
+
 export default function App({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page)
-
+  Layout = getLayout
   return (
     <ErrorBoundary
       FallbackComponent={RootErrorFallback}
@@ -23,7 +25,7 @@ export default function App({ Component, pageProps }) {
 
 function RootErrorFallback({ error, resetErrorBoundary }) {
   if (error instanceof AuthenticationError) {
-    return <LoginForm onSuccess={resetErrorBoundary} />
+    return Layout(<LoginForm onSuccess={resetErrorBoundary} unAuthenticated />)
   } else if (error instanceof AuthorizationError) {
     return (
       <ErrorComponent
