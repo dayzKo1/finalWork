@@ -14,9 +14,9 @@ const ResetPasswordPage = () => {
 
       {isSuccess ? (
         <div>
-          <h2>Password Reset Successfully</h2>
+          <h2>密码设置成功！</h2>
           <p>
-            Go to the <Link href={Routes.Home()}>homepage</Link>
+            前往<Link href={Routes.Home()}>首页</Link>
           </p>
         </div>
       ) : (
@@ -56,7 +56,7 @@ const ResetPasswordPage = () => {
   )
 }
 
-ResetPasswordPage.redirectAuthenticatedTo = "/"
+// ResetPasswordPage.redirectAuthenticatedTo = "/"
 
 ResetPasswordPage.getLayout = (page) => <Layout title="Reset Your Password">{page}</Layout>
 

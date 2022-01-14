@@ -40,7 +40,7 @@ const ForgotPasswordPage = () => {
   )
 }
 
-ForgotPasswordPage.redirectAuthenticatedTo = "/"
+// ForgotPasswordPage.redirectAuthenticatedTo = "/"
 
 ForgotPasswordPage.getLayout = (page) => <Layout title="Forgot Your Password?">{page}</Layout>
 

@@ -1,13 +1,14 @@
 import { useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { SignupForm } from "app/auth/components/SignupForm"
+import { Suspense } from "react"
 
 const SignupPage = () => {
   const router = useRouter()
   return (
-    <div>
+    <Suspense fallback={<div>Loading...</div>}>
       <SignupForm onSuccess={() => router.push(Routes.Home())} />
-    </div>
+    </Suspense>
   )
 }
 

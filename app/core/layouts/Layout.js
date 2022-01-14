@@ -1,4 +1,4 @@
-import { Head, Image, Link, useMutation, Routes } from "blitz"
+import { Head, Image, Link, useMutation, Routes, useRouter } from "blitz"
 import { Menu } from "antd"
 import React, { useState, Suspense } from "react"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
@@ -11,11 +11,12 @@ const UserInfo = (props) => {
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
   const { setCurrent } = props
+  const router = useRouter()
   if (currentUser) {
     return (
       <>
         <div className="buttons2">
-          <Link href={Routes.SignupPage()}>
+          <Link href={Routes.editUserPage()}>
             <a className="button small" onClick={() => setCurrent("0")}>
               个人中心
             </a>
@@ -24,13 +25,13 @@ const UserInfo = (props) => {
             className="button small"
             onClick={async () => {
               await logoutMutation()
+              router.push(Routes.LoginPage())
+              setCurrent("0")
             }}
           >
             退出
           </a>
-          <span>
-            用户名：<code>{currentUser.name}</code>
-          </span>
+          用户名： {currentUser.name}({currentUser.role})
         </div>
       </>
     )
@@ -247,7 +248,7 @@ const Layout = ({ title, children }) => {
           },
           {
             icon: (
-              <img
+              <Image
                 src="https://gw.alipayobjects.com/zos/rmsportal/nBVXkrFdWHxbZlmMbsaH.svg"
                 alt="more products"
               />
@@ -256,7 +257,7 @@ const Layout = ({ title, children }) => {
             items: [
               {
                 icon: (
-                  <img
+                  <Image
                     src="https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg"
                     alt="yuque"
                   />
@@ -268,7 +269,7 @@ const Layout = ({ title, children }) => {
               },
               {
                 icon: (
-                  <img
+                  <Image
                     src="https://gw.alipayobjects.com/zos/rmsportal/uHocHZfNWZOdsRUonZNr.png"
                     alt="yuque"
                   />

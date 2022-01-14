@@ -23,7 +23,7 @@ export const LoginForm = (props) => {
           } catch (error) {
             if (error instanceof AuthenticationError) {
               return {
-                [FORM_ERROR]: "抱歉，这些凭据无效",
+                [FORM_ERROR]: "邮箱或密码错误",
               }
             } else {
               return {

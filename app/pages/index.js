@@ -1,4 +1,3 @@
-import { Suspense } from "react"
 import { Image, Link, useMutation, Routes } from "blitz"
 import { Input } from "antd"
 import Layout from "app/core/layouts/Layout"

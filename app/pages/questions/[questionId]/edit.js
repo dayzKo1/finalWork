@@ -46,7 +46,6 @@ export const EditQuestion = () => {
                 })
               )
             } catch (error) {
-              console.error(error)
               return {
                 [FORM_ERROR]: error.toString(),
               }

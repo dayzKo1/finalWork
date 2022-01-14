@@ -5,7 +5,7 @@ export const email = z
   .transform((str) => str.toLowerCase().trim())
 export const password = z
   .string()
-  .min(10)
+  .min(8)
   .max(100)
   .transform((str) => str.trim())
 export const Signup = z.object({
@@ -34,4 +34,8 @@ export const ResetPassword = z
 export const ChangePassword = z.object({
   currentPassword: z.string(),
   newPassword: password,
+})
+export const editUser = z.object({
+  email,
+  name: z.string(),
 })
