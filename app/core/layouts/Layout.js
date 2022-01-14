@@ -16,7 +16,7 @@ const UserInfo = (props) => {
     return (
       <>
         <div className="buttons2">
-          <Link href={Routes.editUserPage()}>
+          <Link href={Routes.EditUserPage()}>
             <a className="button small" onClick={() => setCurrent("0")}>
               个人中心
             </a>
@@ -247,33 +247,18 @@ const Layout = ({ title, children }) => {
             ],
           },
           {
-            icon: (
-              <Image
-                src="https://gw.alipayobjects.com/zos/rmsportal/nBVXkrFdWHxbZlmMbsaH.svg"
-                alt="more products"
-              />
-            ),
+            icon: <AppstoreOutlined />,
             title: "更多产品",
             items: [
               {
-                icon: (
-                  <Image
-                    src="https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg"
-                    alt="yuque"
-                  />
-                ),
+                icon: <MailOutlined />,
                 title: "语雀",
                 url: "https://yuque.com",
                 description: "知识创作与分享工具",
                 openExternal: true,
               },
               {
-                icon: (
-                  <Image
-                    src="https://gw.alipayobjects.com/zos/rmsportal/uHocHZfNWZOdsRUonZNr.png"
-                    alt="yuque"
-                  />
-                ),
+                icon: <TrophyOutlined />,
                 title: "云凤蝶",
                 url: "https://yunfengdie.com",
                 description: "中台建站平台",

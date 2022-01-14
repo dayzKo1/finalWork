@@ -7,7 +7,7 @@ const EditUserPage = () => {
   const router = useRouter()
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <SignupForm onSuccess={() => router.push(Routes.editUserPage())} edit />
+      <SignupForm onSuccess={() => router.push(Routes.EditUserPage())} edit />
     </Suspense>
   )
 }
