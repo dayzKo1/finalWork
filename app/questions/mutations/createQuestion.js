@@ -9,7 +9,6 @@ export default resolver.pipe(resolver.zod(CreateQuestion), resolver.authorize(),
   const question = await db.question.create({
     data: {
       ...input,
-
       choices: { create: input.choices },
     },
   })

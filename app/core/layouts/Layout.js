@@ -80,10 +80,10 @@ const Layout = ({ title, children }) => {
               <Link href={Routes.QuestionsPage()}>问题</Link>
             </Menu.Item>
             <Menu.Item key="Home1" icon={<SettingOutlined />}>
-              <Link href={Routes.Home()}>首页1</Link>
+              <Link href={Routes.RecruitsPage()}>招聘</Link>
             </Menu.Item>
             <Menu.Item key="Home2" icon={<TrophyOutlined />}>
-              <Link href={Routes.Home()}>首页2</Link>
+              <Link href={Routes.Home()}>求职</Link>
             </Menu.Item>
             <Suspense fallback="Loading...">
               <UserInfo setCurrent={setCurrent} />
@@ -114,11 +114,9 @@ const Layout = ({ title, children }) => {
           align-items: center;
         }
         main {
-          padding: 5rem 0;
           flex: 1;
           display: flex;
           flex-direction: column;
-          justify-content: center;
           align-items: center;
         }
         main p {

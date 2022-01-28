@@ -12,7 +12,12 @@ export const LabeledTextField = forwardRef(
           : (v) => (v === "" ? null : v),
       ...fieldProps,
     })
-    const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
+    const normalizedError = Array.isArray(error)
+      ? error.join(", ")
+      : error
+          ?.replace("Invalid email", "无效邮箱")
+          .replace("Should be at least 8 characters", "密码不能少于八位")
+          .replace("Expected string, received null", "请输入字符") || submitError
     return (
       <div {...outerProps}>
         <label {...labelProps}>
