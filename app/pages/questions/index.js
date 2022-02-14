@@ -2,8 +2,9 @@ import { Suspense } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getQuestions from "app/questions/queries/getQuestions"
-import { Spin } from "antd"
+import { Button } from "antd"
 import { LoadingOutlined } from "@ant-design/icons"
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 const ITEMS_PER_PAGE = 100
 export const QuestionsList = () => {
   const router = useRouter()
@@ -64,7 +65,6 @@ export const QuestionsList = () => {
 }
 
 const QuestionsPage = () => {
-  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
   return (
     <>
       <Head>
@@ -72,11 +72,11 @@ const QuestionsPage = () => {
       </Head>
 
       <div>
-        <p>
+        <Button type="primary" style={{ marginTop: 10 }}>
           <Link href={Routes.NewQuestionPage()}>
-            <a>Create Question</a>
+            <a>创建问答</a>
           </Link>
-        </p>
+        </Button>
 
         <Suspense fallback={antIcon}>
           <QuestionsList />
