@@ -2,20 +2,27 @@ import { Link, useRouter, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import createRecruit from "app/recruits/mutations/createRecruit"
 import { RecruitForm, FORM_ERROR } from "app/recruits/components/RecruitForm"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { Button } from "antd"
 
 const NewRecruitPage = () => {
   const router = useRouter()
   const [createRecruitMutation] = useMutation(createRecruit)
+  const currentUser = useCurrentUser()
+
   return (
     <div>
-      <h1>Create New Recruit</h1>
+      <div style={{ fontSize: 35 }}>发布招聘信息</div>
 
       <RecruitForm
-        submitText="Create Recruit" // TODO use a zod schema for form validation
+        initialValues={{
+          userId: currentUser.id,
+        }}
+        submitText="发布"
+        // TODO use a zod schema for form validation
         //  - Tip: extract mutation's schema into a shared `validations.ts` file and
         //         then import and use it here
         // schema={CreateRecruit}
-        // initialValues={{}}
         onSubmit={async (values) => {
           try {
             const recruit = await createRecruitMutation(values)
@@ -32,12 +39,11 @@ const NewRecruitPage = () => {
           }
         }}
       />
-
-      <p>
+      <Button type="primary" style={{ marginTop: 10 }}>
         <Link href={Routes.RecruitsPage()}>
-          <a>Recruits</a>
+          <a>返回招聘信息列表</a>
         </Link>
-      </p>
+      </Button>
     </div>
   )
 }

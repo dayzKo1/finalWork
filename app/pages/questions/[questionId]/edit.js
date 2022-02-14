@@ -4,6 +4,8 @@ import Layout from "app/core/layouts/Layout"
 import getQuestion from "app/questions/queries/getQuestion"
 import updateQuestion from "app/questions/mutations/updateQuestion"
 import { QuestionForm, FORM_ERROR } from "app/questions/components/QuestionForm"
+import { LoadingOutlined } from "@ant-design/icons"
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 export const EditQuestion = () => {
   const router = useRouter()
   const questionId = useParam("questionId", "number")
@@ -60,7 +62,7 @@ export const EditQuestion = () => {
 const EditQuestionPage = () => {
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={antIcon}>
         <EditQuestion />
       </Suspense>
 

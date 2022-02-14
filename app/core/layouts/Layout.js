@@ -1,11 +1,30 @@
 import { Head, Image, Link, useMutation, Routes, useRouter } from "blitz"
-import { Menu } from "antd"
+import { Menu, Dropdown } from "antd"
 import React, { useState, Suspense } from "react"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import { MailOutlined, AppstoreOutlined, SettingOutlined, TrophyOutlined } from "@ant-design/icons"
 import Footer from "rc-footer"
 import "rc-footer/assets/index.css"
+import { LoadingOutlined } from "@ant-design/icons"
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+
+const menu = (currentUser, setCurrent) => (
+  <Menu>
+    <Menu.Item>
+      <Link href={Routes.EditUserPage()}>
+        <div onClick={() => setCurrent("0")}>个人信息</div>
+      </Link>
+    </Menu.Item>
+    {currentUser.role === "COMPANY" && (
+      <Menu.Item>
+        <Link href={Routes.AppliesPage()}>
+          <div onClick={() => setCurrent("0")}>职位管理</div>
+        </Link>
+      </Menu.Item>
+    )}
+  </Menu>
+)
 
 const UserInfo = (props) => {
   const currentUser = useCurrentUser()
@@ -16,11 +35,15 @@ const UserInfo = (props) => {
     return (
       <>
         <div className="buttons2">
-          <Link href={Routes.EditUserPage()}>
-            <a className="button small" onClick={() => setCurrent("0")}>
+          <Dropdown overlay={menu(currentUser, setCurrent)}>
+            <a
+              className="ant-dropdown-link"
+              onClick={(e) => e.preventDefault()}
+              style={{ color: "hsla(0,0%,100%,.65)" }}
+            >
               个人中心
             </a>
-          </Link>
+          </Dropdown>
           <a
             className="button small"
             onClick={async () => {
@@ -59,40 +82,46 @@ const Layout = ({ title, children }) => {
   const [theme, setTheme] = useState("dark")
   return (
     <>
-      <div className="container">
-        <Head>
-          <title>{title}</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        {/* 顶部菜单 */}
-        <div style={{ width: "100%" }}>
-          <Menu
-            onClick={(e) => setCurrent(e.key)}
-            selectedKeys={[current]}
-            mode="horizontal"
-            theme="dark"
-            style={{ display: "flex", justifyContent: "center" }}
-          >
-            <Menu.Item key="Home" icon={<AppstoreOutlined />}>
-              <Link href={Routes.Home()}>首页</Link>
-            </Menu.Item>
-            <Menu.Item key="Questions" icon={<MailOutlined />}>
-              <Link href={Routes.QuestionsPage()}>问题</Link>
-            </Menu.Item>
-            <Menu.Item key="Home1" icon={<SettingOutlined />}>
-              <Link href={Routes.RecruitsPage()}>招聘</Link>
-            </Menu.Item>
-            <Menu.Item key="Home2" icon={<TrophyOutlined />}>
-              <Link href={Routes.Home()}>求职</Link>
-            </Menu.Item>
-            <Suspense fallback="Loading...">
-              <UserInfo setCurrent={setCurrent} />
-            </Suspense>
-          </Menu>
-        </div>
-        {/* 主体 */}
-        <main>{children}</main>
-        <style jsx global>{`
+      <div
+        style={{
+          backgroundImage: `url('/mountains.jpg')`,
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div className="container">
+          <Head>
+            <title>{title}</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          {/* 顶部菜单 */}
+          <div style={{ width: "100%" }}>
+            <Menu
+              onClick={(e) => setCurrent(e.key)}
+              selectedKeys={[current]}
+              mode="horizontal"
+              theme="dark"
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <Menu.Item key="Home" icon={<AppstoreOutlined />}>
+                <Link href={Routes.Home()}>首页</Link>
+              </Menu.Item>
+              <Menu.Item key="Questions" icon={<MailOutlined />}>
+                <Link href={Routes.QuestionsPage()}>问答</Link>
+              </Menu.Item>
+              <Menu.Item key="Home1" icon={<SettingOutlined />}>
+                <Link href={Routes.RecruitsPage()}>招聘</Link>
+              </Menu.Item>
+              <Menu.Item key="Home2" icon={<TrophyOutlined />}>
+                <Link href={Routes.Home()}>求职</Link>
+              </Menu.Item>
+              <Suspense fallback={antIcon}>
+                <UserInfo setCurrent={setCurrent} />
+              </Suspense>
+            </Menu>
+          </div>
+          {/* 主体 */}
+          <main>{children}</main>
+          <style jsx global>{`
         @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;700&display=swap"); */}
         html,
         body {
@@ -118,6 +147,7 @@ const Layout = ({ title, children }) => {
           display: flex;
           flex-direction: column;
           align-items: center;
+          max-width:1200px;
         }
         main p {
           font-size: 1.2rem;
@@ -178,95 +208,96 @@ const Layout = ({ title, children }) => {
           }
         }
       `}</style>
+        </div>
+        {/* 页脚 */}
+        <Footer
+          maxColumnsPerRow={4}
+          theme={theme}
+          columns={[
+            {
+              title: "相关资源",
+              items: [
+                {
+                  title: "Ant Design Pro",
+                  url: "https://pro.ant.design/",
+                  openExternal: true,
+                },
+                {
+                  title: "Ant Design Mobile",
+                  url: "https://mobile.ant.design/",
+                  openExternal: true,
+                },
+                {
+                  title: "Kitchen",
+                  url: "https://kitchen.alipay.com/",
+                  description: "Sketch 工具集",
+                },
+              ],
+            },
+            {
+              title: "社区",
+              items: [
+                {
+                  title: "Ant Design Pro",
+                  url: "https://pro.ant.design/",
+                  openExternal: true,
+                },
+                {
+                  title: "Ant Design Mobile",
+                  url: "https://mobile.ant.design/",
+                  openExternal: true,
+                },
+                {
+                  title: "Kitchen",
+                  url: "https://kitchen.alipay.com/",
+                  description: "Sketch 工具集",
+                },
+              ],
+            },
+            {
+              title: "帮助",
+              items: [
+                {
+                  title: "Ant Design Pro",
+                  url: "https://pro.ant.design/",
+                  openExternal: true,
+                },
+                {
+                  title: "Ant Design Mobile",
+                  url: "https://mobile.ant.design/",
+                  openExternal: true,
+                },
+                {
+                  title: "Kitchen",
+                  url: "https://kitchen.alipay.com/",
+                  description: "Sketch 工具集",
+                },
+              ],
+            },
+            {
+              icon: <AppstoreOutlined />,
+              title: "更多产品",
+              items: [
+                {
+                  icon: <MailOutlined />,
+                  title: "语雀",
+                  url: "https://yuque.com",
+                  description: "知识创作与分享工具",
+                  openExternal: true,
+                },
+                {
+                  icon: <TrophyOutlined />,
+                  title: "云凤蝶",
+                  url: "https://yunfengdie.com",
+                  description: "中台建站平台",
+                  openExternal: true,
+                },
+              ],
+            },
+          ]}
+          bottom="&copy;dayzKo1"
+        />
       </div>
-      {/* 页脚 */}
-      <Footer
-        maxColumnsPerRow={4}
-        theme={theme}
-        columns={[
-          {
-            title: "相关资源",
-            items: [
-              {
-                title: "Ant Design Pro",
-                url: "https://pro.ant.design/",
-                openExternal: true,
-              },
-              {
-                title: "Ant Design Mobile",
-                url: "https://mobile.ant.design/",
-                openExternal: true,
-              },
-              {
-                title: "Kitchen",
-                url: "https://kitchen.alipay.com/",
-                description: "Sketch 工具集",
-              },
-            ],
-          },
-          {
-            title: "社区",
-            items: [
-              {
-                title: "Ant Design Pro",
-                url: "https://pro.ant.design/",
-                openExternal: true,
-              },
-              {
-                title: "Ant Design Mobile",
-                url: "https://mobile.ant.design/",
-                openExternal: true,
-              },
-              {
-                title: "Kitchen",
-                url: "https://kitchen.alipay.com/",
-                description: "Sketch 工具集",
-              },
-            ],
-          },
-          {
-            title: "帮助",
-            items: [
-              {
-                title: "Ant Design Pro",
-                url: "https://pro.ant.design/",
-                openExternal: true,
-              },
-              {
-                title: "Ant Design Mobile",
-                url: "https://mobile.ant.design/",
-                openExternal: true,
-              },
-              {
-                title: "Kitchen",
-                url: "https://kitchen.alipay.com/",
-                description: "Sketch 工具集",
-              },
-            ],
-          },
-          {
-            icon: <AppstoreOutlined />,
-            title: "更多产品",
-            items: [
-              {
-                icon: <MailOutlined />,
-                title: "语雀",
-                url: "https://yuque.com",
-                description: "知识创作与分享工具",
-                openExternal: true,
-              },
-              {
-                icon: <TrophyOutlined />,
-                title: "云凤蝶",
-                url: "https://yunfengdie.com",
-                description: "中台建站平台",
-                openExternal: true,
-              },
-            ],
-          },
-        ]}
-        bottom="&copy;dayzKo1"
-      />
     </>
   )
 }

@@ -4,6 +4,9 @@ import Layout from "app/core/layouts/Layout"
 import getQuestion from "app/questions/queries/getQuestion"
 import deleteQuestion from "app/questions/mutations/deleteQuestion"
 import updateChoice from "app/choices/mutations/updateChoice"
+import { LoadingOutlined } from "@ant-design/icons"
+import { Button } from "antd"
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
 
 export const Question = () => {
   const router = useRouter()
@@ -35,18 +38,24 @@ export const Question = () => {
         <ul>
           {question.choices.map((choice) => (
             <li key={choice.id}>
-              {choice.text} - {choice.votes} votes
-              <button onClick={() => handleVote(choice.id)}>Vote</button>
+              {choice.text} - {choice.votes} 票
+              <Button
+                shape="circle"
+                size="small"
+                style={{ margin: "0.5rem" }}
+                onClick={() => handleVote(choice.id)}
+              >
+                +1
+              </Button>
             </li>
           ))}
         </ul>
-
-        <Link href={`/questions/${question.id}/edit`}>
-          <a>Edit</a>
-        </Link>
-
-        <button
-          type="button"
+        <Button type="primary">
+          <Link href={`/questions/${question.id}/edit`}>
+            <a>编辑</a>
+          </Link>
+        </Button>
+        <Button
           onClick={async () => {
             if (window.confirm("This will be deleted")) {
               await deleteQuestionMutation({ id: question.id })
@@ -55,8 +64,8 @@ export const Question = () => {
           }}
           style={{ marginLeft: "0.5rem" }}
         >
-          Delete
-        </button>
+          删除
+        </Button>
       </div>
     </>
   )
@@ -71,7 +80,7 @@ const ShowQuestionPage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={antIcon}>
         <Question />
       </Suspense>
     </div>
