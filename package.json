@@ -32,6 +32,7 @@
     "react": "18.0.0-beta-149b420f6-20211119",
     "react-dom": "18.0.0-alpha-5ca4b0433-20211020",
     "react-final-form": "6.5.7",
+    "react-sticky": "6.0.3",
     "react-window": "1.8.6",
     "zod": "3.11.6"
   },
