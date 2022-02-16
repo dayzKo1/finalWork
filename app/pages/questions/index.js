@@ -4,7 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getQuestions from "app/questions/queries/getQuestions"
 import { Button } from "antd"
 import { LoadingOutlined } from "@ant-design/icons"
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 const ITEMS_PER_PAGE = 100
 export const QuestionsList = () => {
   const router = useRouter()

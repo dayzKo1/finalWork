@@ -4,7 +4,8 @@ import { z } from "zod"
 
 const CreateRecruit = z.object({
   name: z.string(),
-  salary: z.string(),
+  salaryMax: z.string(),
+  salaryMin: z.string(),
   description: z.string(),
   detail: z.string(),
   userId: z.number(),
@@ -15,7 +16,8 @@ export default resolver.pipe(resolver.zod(CreateRecruit), resolver.authorize(), 
     data: {
       ...input,
       name: input.name,
-      salary: input.salary,
+      salaryMax: input.salaryMax,
+      salaryMin: input.salaryMin,
       description: input.description,
       detail: input.detail,
       userId: input.userId,

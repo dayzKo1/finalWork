@@ -6,7 +6,7 @@ import updateRecruit from "app/recruits/mutations/updateRecruit"
 import { RecruitForm, FORM_ERROR } from "app/recruits/components/RecruitForm"
 import { LoadingOutlined } from "@ant-design/icons"
 import { Button } from "antd"
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 export const EditRecruit = () => {
   const router = useRouter()
   const recruitId = useParam("recruitId", "number")

@@ -6,7 +6,7 @@ import deleteQuestion from "app/questions/mutations/deleteQuestion"
 import updateChoice from "app/choices/mutations/updateChoice"
 import { LoadingOutlined } from "@ant-design/icons"
 import { Button } from "antd"
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 
 export const Question = () => {
   const router = useRouter()

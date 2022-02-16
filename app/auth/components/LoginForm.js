@@ -42,6 +42,7 @@ export const LoginForm = (props) => {
           &nbsp;Or&nbsp;
           <Link href={Routes.SignupPage()}>注册</Link>
         </div>
+        <LabeledTextField name="validate" label="验证码" placeholder="validate" />
       </Form>
     </div>
   )

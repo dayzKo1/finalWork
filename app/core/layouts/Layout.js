@@ -7,7 +7,7 @@ import { MailOutlined, AppstoreOutlined, SettingOutlined, TrophyOutlined } from 
 import Footer from "rc-footer"
 import "rc-footer/assets/index.css"
 import { LoadingOutlined } from "@ant-design/icons"
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 
 const menu = (currentUser, setCurrent) => (
   <Menu>
@@ -19,7 +19,7 @@ const menu = (currentUser, setCurrent) => (
     {currentUser.role === "COMPANY" && (
       <Menu.Item>
         <Link href={Routes.AppliesPage()}>
-          <div onClick={() => setCurrent("0")}>职位管理</div>
+          <div onClick={() => setCurrent("0")}>申请信息</div>
         </Link>
       </Menu.Item>
     )}
@@ -109,7 +109,7 @@ const Layout = ({ title, children }) => {
                 <Link href={Routes.QuestionsPage()}>问答</Link>
               </Menu.Item>
               <Menu.Item key="Home1" icon={<SettingOutlined />}>
-                <Link href={Routes.RecruitsPage()}>招聘</Link>
+                <Link href={Routes.RecruitsPage()}>职位</Link>
               </Menu.Item>
               <Menu.Item key="Home2" icon={<TrophyOutlined />}>
                 <Link href={Routes.Home()}>求职</Link>

@@ -7,7 +7,7 @@ import { LoadingOutlined } from "@ant-design/icons"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import getApplies from "app/applies/queries/getApplies"
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 const ITEMS_PER_PAGE = 100
 export const AppliesList = () => {
   const router = useRouter()
@@ -44,22 +44,17 @@ export const AppliesList = () => {
             type="inner"
             title={apply.recruitId}
             extra={
-              <Link
-                href={Routes.ShowRecruitPage({
-                  recruitId: apply.id,
-                })}
-              >
-                <a>继续沟通</a>
-              </Link>
+              <>
+                <Link
+                  href={Routes.ShowRecruitPage({
+                    recruitId: apply.id,
+                  })}
+                >
+                  <a>查看简历</a>
+                </Link>
+              </>
             }
-          >
-            {/* <div>
-              {apply.salary} | {apply.description}
-            </div>
-            <div>
-              {apply.user.name}
-            </div> */}
-          </Card>
+          ></Card>
         ))}
       </Card>
 

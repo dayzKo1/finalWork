@@ -17,8 +17,10 @@ import { LoadingOutlined } from "@ant-design/icons"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import createApply from "app/applies/mutations/createApply"
 import getApplies from "app/applies/queries/getApplies"
+import createCollect from "app/collects/mutations/createCollect"
+import getCollects from "app/collects/queries/getCollects"
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 export const Recruit = () => {
   const router = useRouter()
   const recruitId = useParam("recruitId", "number")
@@ -29,7 +31,7 @@ export const Recruit = () => {
   const [createApplication] = useMutation(createApply)
 
   const currentUser = useCurrentUser()
-  const d = new Date(recruit?.updatedAt) // 获取并格式化 更新时间
+  const d = new Date(recruit?.updatedAt)
   const date =
     d.getFullYear() +
     "-" +
@@ -42,8 +44,14 @@ export const Recruit = () => {
     d.getMinutes() +
     ":" +
     d.getSeconds()
-
-  const [{ applies, hasMore }] = usePaginatedQuery(getApplies, {
+  const [{ applies }] = usePaginatedQuery(getApplies, {
+    orderBy: {
+      id: "asc",
+    },
+    skip: 0,
+    take: 100,
+  })
+  const [{ collects }] = usePaginatedQuery(getCollects, {
     orderBy: {
       id: "asc",
     },
@@ -55,12 +63,16 @@ export const Recruit = () => {
       return item.userId === currentUser.id && item.recruitId === recruit.id
     })
   )
+  const [isCollected, setCollected] = useState(
+    collects.some((item, index, arr) => {
+      return item.userId === currentUser.id && item.recruitId === recruit.id
+    })
+  )
   return (
     <>
       <Head>
         <title>
-          {" "}
-          {recruit.id}：{recruit.name}{" "}
+          {recruit.id}：{recruit.name}
         </title>
       </Head>
 
@@ -73,7 +85,9 @@ export const Recruit = () => {
         <Descriptions title="岗位介绍">
           <Descriptions.Item label="岗位名称">{recruit.name}</Descriptions.Item>
           <Descriptions.Item label="最近更新于">{date}</Descriptions.Item>
-          <Descriptions.Item label="薪酬">{recruit.salary}</Descriptions.Item>
+          <Descriptions.Item label="薪酬">
+            {recruit.salaryMin}-{recruit.salaryMax}
+          </Descriptions.Item>
           <Descriptions.Item label="职位简介">{recruit.description}</Descriptions.Item>
           <Descriptions.Item label="职位描述">{recruit.detail}</Descriptions.Item>
         </Descriptions>
@@ -113,22 +127,40 @@ export const Recruit = () => {
           </div>
         ) : (
           currentUser.role === "USER" && (
-            <div style={{ cssFloat: "right", margin: 10 }}>
-              <Button
-                type="primary"
-                onClick={async () => {
-                  await createApplication({
-                    userId: currentUser.id,
-                    recruitId: recruit.id,
-                  })
-                  message.success("申请成功")
-                  setApplied(true)
-                }}
-                disabled={isApplied}
-              >
-                {isApplied ? "已申请" : "申请"}
-              </Button>
-            </div>
+            <>
+              <div style={{ cssFloat: "right", margin: 10 }}>
+                <Button
+                  type="primary"
+                  onClick={async () => {
+                    await createApplication({
+                      userId: currentUser.id,
+                      recruitId: recruit.id,
+                    })
+                    message.success("申请成功")
+                    setApplied(true)
+                  }}
+                  disabled={isApplied}
+                >
+                  {isApplied ? "已申请" : "申请"}
+                </Button>
+              </div>
+              <div style={{ cssFloat: "right", margin: 10 }}>
+                <Button
+                  type="primary"
+                  onClick={async () => {
+                    await createCollect({
+                      userId: currentUser.id,
+                      recruitId: recruit.id,
+                    })
+                    message.success("收藏成功")
+                    setCollected(true)
+                  }}
+                  disabled={isCollected}
+                >
+                  {isCollected ? "已收藏" : "收藏"}
+                </Button>
+              </div>
+            </>
           )
         )}
       </div>

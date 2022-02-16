@@ -28,9 +28,11 @@
     "antd": "4.18.2",
     "blitz": "0.44.4",
     "final-form": "4.20.6",
+    "rc-footer": "0.6.6",
     "react": "18.0.0-beta-149b420f6-20211119",
     "react-dom": "18.0.0-alpha-5ca4b0433-20211020",
     "react-final-form": "6.5.7",
+    "react-window": "1.8.6",
     "zod": "3.11.6"
   },
   "devDependencies": {

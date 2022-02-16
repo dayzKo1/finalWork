@@ -1,25 +1,21 @@
 import { resolver } from "blitz"
 import db from "db"
 import { z } from "zod"
-const UpdateRecruit = z.object({
+const UpdateCollect = z.object({
   id: z.number(),
   name: z.string(),
-  salaryMax: z.string(),
-  salaryMin: z.string(),
-  description: z.string(),
-  detail: z.string(),
 })
 export default resolver.pipe(
-  resolver.zod(UpdateRecruit),
+  resolver.zod(UpdateCollect),
   resolver.authorize(),
   async ({ id, ...data }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const recruit = await db.recruit.update({
+    const collect = await db.collect.update({
       where: {
         id,
       },
       data,
     })
-    return recruit
+    return collect
   }
 )
