@@ -5,7 +5,7 @@ import getRecruit from "app/recruits/queries/getRecruit"
 import updateRecruit from "app/recruits/mutations/updateRecruit"
 import { RecruitForm, FORM_ERROR } from "app/recruits/components/RecruitForm"
 import { LoadingOutlined } from "@ant-design/icons"
-import { Button } from "antd"
+import { Button, Card } from "antd"
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 export const EditRecruit = () => {
   const router = useRouter()
@@ -28,8 +28,7 @@ export const EditRecruit = () => {
       </Head>
 
       <div>
-        <h1>编辑招聘信息：{recruit.id}</h1>
-
+        <h1>编辑招聘信息</h1>
         <RecruitForm
           submitText="保存" // TODO use a zod schema for form validation
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
@@ -64,15 +63,18 @@ export const EditRecruit = () => {
 const EditRecruitPage = () => {
   return (
     <div>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 10 }}>
+        <Button type="primary" style={{ marginTop: 10 }}>
+          <Link href={Routes.RecruitsPage()}>
+            <a>返回招聘信息列表</a>
+          </Link>
+        </Button>
+      </div>
       <Suspense fallback={antIcon}>
-        <EditRecruit />
+        <Card hoverable style={{ marginTop: 20 }}>
+          <EditRecruit />
+        </Card>
       </Suspense>
-
-      <Button type="primary" style={{ marginTop: 10 }}>
-        <Link href={Routes.RecruitsPage()}>
-          <a>返回招聘信息列表</a>
-        </Link>
-      </Button>
     </div>
   )
 }

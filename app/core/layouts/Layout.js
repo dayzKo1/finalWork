@@ -1,6 +1,6 @@
 import { Head, Image, Link, useMutation, Routes, useRouter } from "blitz"
-import { Menu, Dropdown } from "antd"
-import React, { useState, Suspense } from "react"
+import { Menu, Dropdown, Affix } from "antd"
+import React, { useState, Suspense, useEffect } from "react"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import { MailOutlined, AppstoreOutlined, SettingOutlined, TrophyOutlined } from "@ant-design/icons"
@@ -16,12 +16,33 @@ const menu = (currentUser, setCurrent) => (
         <div onClick={() => setCurrent("0")}>个人信息</div>
       </Link>
     </Menu.Item>
-    {currentUser.role === "COMPANY" && (
-      <Menu.Item>
-        <Link href={Routes.AppliesPage()}>
-          <div onClick={() => setCurrent("0")}>申请信息</div>
-        </Link>
-      </Menu.Item>
+
+    {currentUser.role === "COMPANY" ? (
+      <>
+        <Menu.Item>
+          <Link href={Routes.AppliesPage()}>
+            <div onClick={() => setCurrent("0")}>我的职位</div>
+          </Link>
+        </Menu.Item>
+      </>
+    ) : (
+      <>
+        <Menu.Item>
+          <Link href={Routes.CollectsPage()}>
+            <div onClick={() => setCurrent("0")}>我的收藏</div>
+          </Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link href={Routes.MyAppliesPage()}>
+            <div onClick={() => setCurrent("0")}>我的申请</div>
+          </Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link href={Routes.ResumePage()}>
+            <div onClick={() => setCurrent("0")}>我的简历</div>
+          </Link>
+        </Menu.Item>
+      </>
     )}
   </Menu>
 )
@@ -78,6 +99,9 @@ const UserInfo = (props) => {
   }
 }
 const Layout = ({ title, children }) => {
+  useEffect(() => {
+    setCurrent(title)
+  }, [title])
   const [current, setCurrent] = useState(title)
   const [theme, setTheme] = useState("dark")
   return (
@@ -94,33 +118,44 @@ const Layout = ({ title, children }) => {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           {/* 顶部菜单 */}
-          <div style={{ width: "100%" }}>
-            <Menu
-              onClick={(e) => setCurrent(e.key)}
-              selectedKeys={[current]}
-              mode="horizontal"
-              theme="dark"
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              <Menu.Item key="Home" icon={<AppstoreOutlined />}>
-                <Link href={Routes.Home()}>首页</Link>
-              </Menu.Item>
-              <Menu.Item key="Questions" icon={<MailOutlined />}>
-                <Link href={Routes.QuestionsPage()}>问答</Link>
-              </Menu.Item>
-              <Menu.Item key="Home1" icon={<SettingOutlined />}>
-                <Link href={Routes.RecruitsPage()}>职位</Link>
-              </Menu.Item>
-              <Menu.Item key="Home2" icon={<TrophyOutlined />}>
-                <Link href={Routes.Home()}>求职</Link>
-              </Menu.Item>
-              <Suspense fallback={antIcon}>
-                <UserInfo setCurrent={setCurrent} />
-              </Suspense>
-            </Menu>
-          </div>
+          <Affix style={{ width: "100%", zIndex: 999 }}>
+            <div style={{ width: "100%", fontSize: 40 }}>
+              <Menu
+                onClick={(e) => setCurrent(e.key)}
+                selectedKeys={[current]}
+                mode="horizontal"
+                theme="dark"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "1.1rem",
+                  height: "4rem",
+                  alignItems: "center",
+                }}
+              >
+                <Menu.Item key="Home" icon={<AppstoreOutlined style={{ fontSize: "1.1rem" }} />}>
+                  <Link href={Routes.Home()}>首页</Link>
+                </Menu.Item>
+                <Menu.Item key="Questions" icon={<MailOutlined style={{ fontSize: "1.1rem" }} />}>
+                  <Link href={Routes.QuestionsPage()}>问答</Link>
+                </Menu.Item>
+                <Menu.Item key="Recruits" icon={<SettingOutlined style={{ fontSize: "1.1rem" }} />}>
+                  <Link href={Routes.RecruitsPage()}>职位</Link>
+                </Menu.Item>
+                <Menu.Item key="Home2" icon={<TrophyOutlined style={{ fontSize: "1.1rem" }} />}>
+                  <Link href={Routes.Home()}>求职</Link>
+                </Menu.Item>
+                <Suspense fallback={antIcon}>
+                  <UserInfo setCurrent={setCurrent} />
+                </Suspense>
+              </Menu>
+            </div>
+          </Affix>
           {/* 主体 */}
-          <main>{children}</main>
+          <main>
+            {" "}
+            <Suspense fallback={antIcon}>{children} </Suspense>
+          </main>
           <style jsx global>{`
         @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;700&display=swap"); */}
         html,
@@ -141,6 +176,7 @@ const Layout = ({ title, children }) => {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+
         }
         main {
           flex: 1;
@@ -148,9 +184,10 @@ const Layout = ({ title, children }) => {
           flex-direction: column;
           align-items: center;
           max-width:1200px;
+
         }
         main p {
-          font-size: 1.2rem;
+          font-size: 1.5rem;
         }
         p {
           text-align: center;
@@ -166,11 +203,12 @@ const Layout = ({ title, children }) => {
           margin-left:30rem;
         }
         .buttons2 {
+          font-size:1.1rem;
           order: 4;
           margin-left:25rem;
         }
         .button {
-          font-size: 0.8rem;
+          font-size:1.1rem;
           padding: 1rem 2rem;
           text-align: center;
         }
@@ -179,7 +217,7 @@ const Layout = ({ title, children }) => {
           padding: 0rem 1rem;
         }
         .button:hover {
-          color: #1890ff;
+          color: white;
         }
         pre {
           background: #fafafa;
@@ -197,9 +235,14 @@ const Layout = ({ title, children }) => {
           align-items: center;
           justify-content: center;
           flex-wrap: wrap;
-
           max-width: 800px;
           margin-top: 3rem;
+        }
+        .ant-menu.ant-menu-dark .ant-menu-item-selected {
+          background-color:transparent;
+        }
+        .ant-menu-dark.ant-menu-horizontal>.ant-menu-item:hover {
+          background-color:transparent;
         }
         @media (max-width: 600px) {
           .grid {

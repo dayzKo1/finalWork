@@ -23,10 +23,10 @@ model User {
   tokens         Token[]
   sessions       Session[]
   Recruits       Recruit[]
-  // 该账号发布的招聘信息
-
-  Apply   Apply[]
-  Collect Collect[]
+  Apply          Apply[]
+  Collect        Collect[]
+  companyKind    String
+  companySize    String
 }
 
 model Session {
@@ -106,12 +106,11 @@ model Recruit {
   detail      String
   Apply       Apply[]
   collect     Collect[]
-  // place        String
-  // experience   String
-  // education    String
-  // type         String
-  // availability String
-
+  city        String
+  year        String
+  educ        String
+  type        String
+  avai        String
 }
 
 // 申请

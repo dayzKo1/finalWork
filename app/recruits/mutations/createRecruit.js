@@ -9,6 +9,11 @@ const CreateRecruit = z.object({
   description: z.string(),
   detail: z.string(),
   userId: z.number(),
+  city: z.string(),
+  year: z.string(),
+  educ: z.string(),
+  type: z.string(),
+  avai: z.string(),
 })
 export default resolver.pipe(resolver.zod(CreateRecruit), resolver.authorize(), async (input) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
@@ -21,6 +26,11 @@ export default resolver.pipe(resolver.zod(CreateRecruit), resolver.authorize(), 
       description: input.description,
       detail: input.detail,
       userId: input.userId,
+      city: input.city,
+      year: input.year,
+      educ: input.educ,
+      type: input.type,
+      avai: input.avai,
     },
   })
   return recruit

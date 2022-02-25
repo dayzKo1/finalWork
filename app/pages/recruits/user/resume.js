@@ -1,4 +1,4 @@
-import { Suspense, useState, useReducer } from "react"
+import { Suspense, useState, useReducer, useEffect } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Image, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getRecruits from "app/recruits/queries/getRecruits"
@@ -12,11 +12,10 @@ import createCollect from "app/collects/mutations/createCollect"
 import getCollects from "app/collects/queries/getCollects"
 import deleteCollect from "app/collects/mutations/deleteCollect"
 import { FixedSizeList as List } from "react-window"
-
 const { Search } = Input
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 
-export const CollectsList = () => {
+export const AppliesList = () => {
   const router = useRouter()
   const currentUser = useCurrentUser()
   const [Applied, setApplied] = useState(false)
@@ -31,12 +30,12 @@ export const CollectsList = () => {
   })
   const [page, setPage] = useState(0)
   const [search, setSearch] = useState("")
+
   const [{ recruits, count }] = usePaginatedQuery(getRecruits, {
     orderBy: {
       id: "asc",
     },
   })
-  const [recruitData, setRecruData] = useState(recruits)
   const [{ applies }] = usePaginatedQuery(getApplies, {
     orderBy: {
       id: "asc",
@@ -45,6 +44,18 @@ export const CollectsList = () => {
     take: 100,
     Applied,
   })
+
+  const status = (arr, m, n) => {
+    return arr.some((item, index, arr) => {
+      return item?.userId === m?.id && item?.recruitId === n?.id
+    })
+  }
+
+  const [recruitData, setRecruData] = useState(
+    recruits.filter((item, index) => {
+      return status(applies, currentUser, recruits[index])
+    })
+  )
 
   const [createApplication] = useMutation(createApply)
 
@@ -60,66 +71,6 @@ export const CollectsList = () => {
 
   const date = (a) => {
     return Date.parse(a)
-  }
-
-  const [activeTabKey, setactiveTabKey] = useState("default")
-  const onTabChange = (key) => {
-    switch (key) {
-      case "default":
-        recruitData.sort((m, n) => {
-          return m.id - n.id
-        })
-        break
-      case "createdAt":
-        recruitData.sort((m, n) => {
-          return date(n.createdAt) - date(m.createdAt)
-        })
-        break
-      case "salary":
-        recruitData.sort((m, n) => {
-          return number(n.salaryMax) - number(m.salaryMax)
-        })
-        break
-      case "updatedAt":
-        recruitData.sort((m, n) => {
-          return date(n.updatedAt) - date(m.updatedAt)
-        })
-        break
-    }
-    setactiveTabKey(key)
-  }
-  const tabList = [
-    {
-      key: "default",
-      tab: "默认排序",
-    },
-    {
-      key: "createdAt",
-      tab: "最新发布",
-    },
-    {
-      key: "salary",
-      tab: "薪酬最高",
-    },
-    {
-      key: "updatedAt",
-      tab: "最近活跃",
-    },
-  ]
-  const onSearch = (value) => {
-    setRecruData(
-      recruits.filter((item, index, arr) => {
-        return item.name.indexOf(value) + 1 || item.user.name.indexOf(value) + 1
-      })
-    )
-    onTabChange(activeTabKey)
-    setSearch(value)
-  }
-
-  const status = (arr, m, n) => {
-    return arr.some((item, index, arr) => {
-      return item?.userId === m?.id && item?.recruitId === n?.id
-    })
   }
 
   const Row = ({ index, style }) => (
@@ -142,8 +93,11 @@ export const CollectsList = () => {
         <div style={{ display: "flex", justifyContent: "space-between", padding: 24 }}>
           <div>
             <div>
-              {recruitData[index]?.salaryMin}-{recruitData[index]?.salaryMax} |{" "}
-              {recruitData[index]?.description}
+              {recruitData[index]?.salaryMin}-{recruitData[index]?.salaryMax}
+              {` | `}
+              {recruitData[index]?.city} {` | `}
+              {recruitData[index]?.year} {` | `}
+              {recruitData[index]?.educ} {` | `}招{recruitData[index]?.avai}
             </div>
             <div>{recruitData[index]?.user?.name}</div>
           </div>
@@ -170,6 +124,7 @@ export const CollectsList = () => {
                 >
                   {status(applies, currentUser, recruitData[index]) ? "已申请" : "申请"}
                 </Button>
+
                 <Button
                   style={{ width: 64, padding: 2 }}
                   type="primary"
@@ -204,47 +159,31 @@ export const CollectsList = () => {
 
   return (
     <>
-      <div>
-        <Search
-          placeholder="搜索职位、公司"
-          allowClear
-          enterButton="搜索"
-          size="large"
-          onSearch={(e) => onSearch(e)}
-          style={{ width: 1065, margin: 20 }}
-        />
-      </div>
+      <h2 style={{ color: "wheat", marginTop: 15, textAlign: "center" }}>我的申请</h2>
       <div
         style={{
           display: "flex",
-          borderTop: "1px solid white",
+          marginTop: 20,
           width: 1065,
         }}
       >
         <div>
-          <Card
-            style={{
-              width: 800,
-              marginRight: 10,
-              background: "none",
-              border: "none",
-            }}
-            tabList={tabList}
-            activeTabKey={activeTabKey}
-            onTabChange={(key) => {
-              onTabChange(key)
-            }}
-          ></Card>
-
-          <List
-            className="List"
-            height={600}
-            itemCount={recruitData.length}
-            itemSize={150}
-            width={800}
-          >
-            {Row}
-          </List>
+          {recruitData.length > 0 ? (
+            <List
+              className="List"
+              height={600}
+              itemCount={recruitData.length}
+              itemSize={150}
+              width={800}
+            >
+              {Row}
+            </List>
+          ) : (
+            <Empty
+              style={{ height: 600, width: 800, background: "white", padding: 50 }}
+              description="暂无数据"
+            />
+          )}
 
           <div
             style={{
@@ -253,9 +192,9 @@ export const CollectsList = () => {
               margin: 10,
             }}
           >
-            <div
-              style={{ marginRight: 10, marginTop: 5, color: "white" }}
-            >{`共 ${recruitData.length} 项`}</div>
+            <div style={{ marginRight: 10, marginTop: 5, color: "white" }}>{`共 ${
+              recruitData.length ?? 0
+            } 项`}</div>
             {currentUser.role === "COMPANY" && (
               <Button type="primary">
                 <Link href={Routes.NewRecruitPage()}>发布招聘信息</Link>
@@ -263,7 +202,7 @@ export const CollectsList = () => {
             )}
           </div>
         </div>
-        <div style={{ marginTop: 55 }}>
+        <div style={{ marginTop: -10 }}>
           <Card
             hoverable
             style={{ width: 244, margin: "10px 10px 0px 10px", height: 138, borderRadius: 6 }}
@@ -311,21 +250,25 @@ export const CollectsList = () => {
   )
 }
 
-const CollectsPage = () => {
+const ResumePage = () => {
+  const currentUser = useCurrentUser()
   return (
     <>
       <Head>
-        <title>Recruits</title>
+        <title>我的申请</title>
       </Head>
-      <Suspense fallback={antIcon}>
-        <CollectsList />
-      </Suspense>
+
+      <div>
+        <Suspense fallback={antIcon}>
+          <AppliesList />
+        </Suspense>
+      </div>
     </>
   )
 }
 
-CollectsPage.authenticate = true
+ResumePage.authenticate = true
 
-CollectsPage.getLayout = (page) => <Layout>{page}</Layout>
+ResumePage.getLayout = (page) => <Layout>{page}</Layout>
 
-export default CollectsPage
+export default ResumePage

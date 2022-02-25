@@ -5,7 +5,7 @@ import { editUser } from "../validations"
 export default resolver.pipe(
   resolver.zod(editUser),
   resolver.authorize(),
-  async ({ email, name }, ctx) => {
+  async ({ email, name, companyKind, companySize }, ctx) => {
     const user = await db.user.findFirst({
       where: {
         id: ctx.session.userId,
@@ -18,6 +18,8 @@ export default resolver.pipe(
       data: {
         email: email.toLowerCase().trim(),
         name,
+        companyKind,
+        companySize,
       },
     })
     return true

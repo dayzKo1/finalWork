@@ -12,11 +12,22 @@ const NewRecruitPage = () => {
 
   return (
     <div>
+      <Button type="primary" style={{ marginTop: 10 }}>
+        <Link href={Routes.RecruitsPage()}>
+          <a>返回招聘信息列表</a>
+        </Link>
+      </Button>
       <div style={{ fontSize: 35 }}>发布招聘信息</div>
-
       <RecruitForm
         initialValues={{
           userId: currentUser.id,
+          city: "福州",
+          year: "无经验",
+          educ: "本科",
+          type: "全职",
+          avai: "1~10人",
+          description: "",
+          detail: "",
         }}
         submitText="发布"
         // TODO use a zod schema for form validation
@@ -39,11 +50,6 @@ const NewRecruitPage = () => {
           }
         }}
       />
-      <Button type="primary" style={{ marginTop: 10 }}>
-        <Link href={Routes.RecruitsPage()}>
-          <a>返回招聘信息列表</a>
-        </Link>
-      </Button>
     </div>
   )
 }

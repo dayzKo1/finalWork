@@ -8,6 +8,11 @@ const UpdateRecruit = z.object({
   salaryMin: z.string(),
   description: z.string(),
   detail: z.string(),
+  city: z.string(),
+  year: z.string(),
+  educ: z.string(),
+  type: z.string(),
+  avai: z.string(),
 })
 export default resolver.pipe(
   resolver.zod(UpdateRecruit),

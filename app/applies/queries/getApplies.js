@@ -16,7 +16,16 @@ export default resolver.pipe(
         db.apply.count({
           where,
         }),
-      query: (paginateArgs) => db.apply.findMany({ ...paginateArgs, where, orderBy }),
+      query: (paginateArgs) =>
+        db.apply.findMany({
+          ...paginateArgs,
+          where,
+          orderBy,
+          include: {
+            user: true,
+            recruit: true,
+          },
+        }),
     })
     return {
       applies,

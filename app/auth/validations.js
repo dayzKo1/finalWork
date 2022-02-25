@@ -13,6 +13,8 @@ export const Signup = z.object({
   password,
   role: z.string(),
   name: z.string(),
+  companyKind: z.string(),
+  companySize: z.string(),
 })
 export const Login = z.object({
   email,
