@@ -1,8 +1,8 @@
-import { Suspense, useState, useReducer, useEffect } from "react"
+import { Suspense, useState, useReducer } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Image, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getRecruits from "app/recruits/queries/getRecruits"
-import { Button, Card, Tag, message, Input, Empty } from "antd"
+import { Button, Card, Tag, message, Input, Empty, Divider } from "antd"
 import { LoadingOutlined } from "@ant-design/icons"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import createApply from "app/applies/mutations/createApply"
@@ -94,10 +94,10 @@ export const CollectsList = () => {
           <div>
             <div>
               {recruitData[index]?.salaryMin}-{recruitData[index]?.salaryMax}
-              {` | `}
-              {recruitData[index]?.city} {` | `}
-              {recruitData[index]?.year} {` | `}
-              {recruitData[index]?.educ} {` | `}招{recruitData[index]?.avai}
+              <Divider type="vertical" />
+              {recruitData[index]?.city} <Divider type="vertical" />
+              {recruitData[index]?.year} <Divider type="vertical" />
+              {recruitData[index]?.educ} <Divider type="vertical" />招{recruitData[index]?.avai}
             </div>
             <div>{recruitData[index]?.user?.name}</div>
           </div>
@@ -192,9 +192,15 @@ export const CollectsList = () => {
               margin: 10,
             }}
           >
-            <div style={{ marginRight: 10, marginTop: 5, color: "white" }}>{`共 ${
-              recruitData.length ?? 0
-            } 项`}</div>
+            <div
+              style={{
+                marginRight: 10,
+                marginTop: 5,
+                color: "white",
+              }}
+            >
+              {`共 ${recruitData.length ?? 0} 项`}
+            </div>
             {currentUser.role === "COMPANY" && (
               <Button type="primary">
                 <Link href={Routes.NewRecruitPage()}>发布招聘信息</Link>

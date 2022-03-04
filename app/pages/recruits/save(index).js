@@ -2,7 +2,7 @@
 // import { Head, Link, usePaginatedQuery, useRouter, Routes, Image, useMutation } from "blitz"
 // import Layout from "app/core/layouts/Layout"
 // import getRecruits from "app/recruits/queries/getRecruits"
-// import { Button, Card, Tag, message, Input, Empty, Select } from "antd"
+// import { Button, Card, Tag, message, Input, Empty, Select, Divider } from "antd"
 // import { LoadingOutlined } from "@ant-design/icons"
 // import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 // import createApply from "app/applies/mutations/createApply"
@@ -165,10 +165,10 @@
 //         <div style={{ display: "flex", justifyContent: "space-between", padding: 24 }}>
 //           <div>
 //             <div>
-//               {recruitData[index]?.salaryMin}-{recruitData[index]?.salaryMax}{` | `}
-//               {recruitData[index]?.city} {` | `}
-//               {recruitData[index]?.year} {` | `}
-//               {recruitData[index]?.educ} {` | `}
+//               {recruitData[index]?.salaryMin}-{recruitData[index]?.salaryMax}<Divider type="vertical" />
+//               {recruitData[index]?.city} <Divider type="vertical" />
+//               {recruitData[index]?.year} <Divider type="vertical" />
+//               {recruitData[index]?.educ} <Divider type="vertical" />
 //               招{recruitData[index]?.avai}
 //             </div>
 //             <div>{recruitData[index]?.user?.name}</div>

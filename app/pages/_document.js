@@ -6,6 +6,9 @@ import {
   BlitzScript,
   /*DocumentContext*/
 } from "blitz"
+import React from "react"
+
+React.useLayoutEffect = React.useEffect
 
 class MyDocument extends Document {
   // Only uncomment if you need to customize this behaviour

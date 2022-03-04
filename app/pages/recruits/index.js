@@ -1,8 +1,8 @@
-import { Suspense, useState, useEffect, useCallback } from "react"
+import { Suspense, useState, useCallback } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Image, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getRecruits from "app/recruits/queries/getRecruits"
-import { Button, Card, Tag, message, Input, Empty } from "antd"
+import { Button, Card, Tag, message, Input, Empty, Divider } from "antd"
 import { LoadingOutlined } from "@ant-design/icons"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import createApply from "app/applies/mutations/createApply"
@@ -12,13 +12,14 @@ import createCollect from "app/collects/mutations/createCollect"
 import getCollects from "app/collects/queries/getCollects"
 import deleteCollect from "app/collects/mutations/deleteCollect"
 import { FixedSizeList as List } from "react-window"
+import { useLayoutEffect } from "react-layout-effect"
 
 const { Search } = Input
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 const ITEMS_PER_PAGE = 4
 
 export const RecruitsList = () => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     onSearch(router.query.search ?? "")
     setUpdate(true)
   }, [router, onSearch])
@@ -142,7 +143,9 @@ export const RecruitsList = () => {
   const Row = ({ index, style }) => (
     <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
       <Card
-        style={{ height: 150 }}
+        headStyle={{ background: "white", borderTop: "2px solid #e9e9e9" }}
+        bodyStyle={{}}
+        style={{ height: 150, borderRadius: 3 }}
         key={recruitData[index]?.id}
         type="inner"
         title={recruitData[index]?.name}
@@ -160,19 +163,20 @@ export const RecruitsList = () => {
           <div>
             <div style={{ padding: 12 }}>
               {recruitData[index]?.salaryMin}-{recruitData[index]?.salaryMax}
-              {` | `}
-              {recruitData[index]?.city} {` | `}
-              {recruitData[index]?.year} {` | `}
-              {recruitData[index]?.educ} {` | `}招{recruitData[index]?.avai}
+              <Divider type="vertical" />
+              {recruitData[index]?.city} <Divider type="vertical" />
+              {recruitData[index]?.year} <Divider type="vertical" />
+              {recruitData[index]?.educ} <Divider type="vertical" />招{recruitData[index]?.avai}
             </div>
             <div style={{ padding: 12 }}>
               {recruitData[index]?.user?.name}
-              {` | `}
+              <Divider type="vertical" />
               {recruitData[index]?.user?.companyKind}
-              {` | `}
+              <Divider type="vertical" />
               {recruitData[index]?.user?.companySize}
             </div>
           </div>
+
           <div
             style={{
               display: "flex",
@@ -229,7 +233,7 @@ export const RecruitsList = () => {
   )
 
   return (
-    <>
+    <div>
       <div>
         <Search
           placeholder="搜索职位、公司"
@@ -285,7 +289,7 @@ export const RecruitsList = () => {
               margin: 10,
             }}
           >
-            <div style={{ marginRight: 10, marginTop: 5, color: "white" }}>{`共 ${
+            <div style={{ marginRight: 10, marginTop: 5 }}>{`共 ${
               recruitData.length ?? 0
             } 项`}</div>
             {currentUser.role === "COMPANY" && (
@@ -317,12 +321,16 @@ export const RecruitsList = () => {
               margin-bottom: 10px;
             }
 
-            :global(.ant-tabs-tab:hover) {
+             {
+              /* :global(.ant-tabs-tab:hover) {
               color: white;
+            } */
             }
 
-            :global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
+             {
+              /* :global(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
               color: white;
+            } */
             }
 
             :global(.ant-card-head) {
@@ -339,7 +347,7 @@ export const RecruitsList = () => {
           `}
         </style>
       </div>
-    </>
+    </div>
   )
 }
 
