@@ -1,12 +1,22 @@
 import { Head, Image, Link, useMutation, Routes, useRouter } from "blitz"
 import { Menu, Dropdown, Affix } from "antd"
-import React, { useState, Suspense, useEffect } from "react"
+import React, { useState, Suspense } from "react"
+import { useLayoutEffect } from "react-layout-effect"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
-import { MailOutlined, AppstoreOutlined, SettingOutlined, TrophyOutlined } from "@ant-design/icons"
+import {
+  MailOutlined,
+  AppstoreOutlined,
+  SettingOutlined,
+  TrophyOutlined,
+  LoadingOutlined,
+  HomeOutlined,
+  QuestionCircleOutlined,
+  ReconciliationOutlined,
+  HighlightOutlined,
+} from "@ant-design/icons"
 import Footer from "rc-footer"
 import "rc-footer/assets/index.css"
-import { LoadingOutlined } from "@ant-design/icons"
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 
 const menu = (currentUser, setCurrent) => (
@@ -17,7 +27,7 @@ const menu = (currentUser, setCurrent) => (
       </Link>
     </Menu.Item>
 
-    {currentUser.role === "COMPANY" ? (
+    {currentUser.role === "COMPANY" && (
       <>
         <Menu.Item>
           <Link href={Routes.AppliesPage()}>
@@ -25,7 +35,9 @@ const menu = (currentUser, setCurrent) => (
           </Link>
         </Menu.Item>
       </>
-    ) : (
+    )}
+
+    {currentUser.role === "USER" && (
       <>
         <Menu.Item>
           <Link href={Routes.CollectsPage()}>
@@ -99,7 +111,7 @@ const UserInfo = (props) => {
   }
 }
 const Layout = ({ title, children }) => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     setCurrent(title)
   }, [title])
   const [current, setCurrent] = useState(title)
@@ -108,8 +120,9 @@ const Layout = ({ title, children }) => {
     <>
       <div
         style={{
-          backgroundImage: `url('/mountains.jpg')`,
-          backgroundRepeat: "no-repeat",
+          // backgroundImage: `url('/mountains.jpg')`,
+          // backgroundRepeat: "no-repeat",
+          background: "whitesmoke",
         }}
       >
         <div className="container">
@@ -118,39 +131,44 @@ const Layout = ({ title, children }) => {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           {/* 顶部菜单 */}
-          <Affix style={{ width: "100%", zIndex: 999 }}>
-            <div style={{ width: "100%", fontSize: 40 }}>
-              <Menu
-                onClick={(e) => setCurrent(e.key)}
-                selectedKeys={[current]}
-                mode="horizontal"
-                theme="dark"
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "1.1rem",
-                  height: "4rem",
-                  alignItems: "center",
-                }}
+          <div style={{ width: "100%", fontSize: 40 }}>
+            <Menu
+              onClick={(e) => setCurrent(e.key)}
+              selectedKeys={[current]}
+              mode="horizontal"
+              theme="dark"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                fontSize: "1.1rem",
+                height: "4rem",
+                alignItems: "center",
+              }}
+            >
+              <Menu.Item key="Home" icon={<HomeOutlined style={{ fontSize: "1.1rem" }} />}>
+                <Link href={Routes.Home()}>首页</Link>
+              </Menu.Item>
+              <Menu.Item
+                key="Questions"
+                icon={<QuestionCircleOutlined style={{ fontSize: "1.1rem" }} />}
               >
-                <Menu.Item key="Home" icon={<AppstoreOutlined style={{ fontSize: "1.1rem" }} />}>
-                  <Link href={Routes.Home()}>首页</Link>
-                </Menu.Item>
-                <Menu.Item key="Questions" icon={<MailOutlined style={{ fontSize: "1.1rem" }} />}>
-                  <Link href={Routes.QuestionsPage()}>问答</Link>
-                </Menu.Item>
-                <Menu.Item key="Recruits" icon={<SettingOutlined style={{ fontSize: "1.1rem" }} />}>
-                  <Link href={Routes.RecruitsPage()}>职位</Link>
-                </Menu.Item>
-                <Menu.Item key="Home2" icon={<TrophyOutlined style={{ fontSize: "1.1rem" }} />}>
-                  <Link href={Routes.Home()}>求职</Link>
-                </Menu.Item>
-                <Suspense fallback={antIcon}>
-                  <UserInfo setCurrent={setCurrent} />
-                </Suspense>
-              </Menu>
-            </div>
-          </Affix>
+                <Link href={Routes.QuestionsPage()}>问答</Link>
+              </Menu.Item>
+              <Menu.Item
+                key="Recruits"
+                icon={<ReconciliationOutlined style={{ fontSize: "1.1rem" }} />}
+              >
+                <Link href={Routes.RecruitsPage()}>职位</Link>
+              </Menu.Item>
+              <Menu.Item key="Home2" icon={<HighlightOutlined style={{ fontSize: "1.1rem" }} />}>
+                <Link href={Routes.Home()}>求职</Link>
+              </Menu.Item>
+              <Suspense fallback={antIcon}>
+                <UserInfo setCurrent={setCurrent} />
+              </Suspense>
+            </Menu>
+          </div>
+
           {/* 主体 */}
           <main>
             {" "}
@@ -184,7 +202,6 @@ const Layout = ({ title, children }) => {
           flex-direction: column;
           align-items: center;
           max-width:1200px;
-
         }
         main p {
           font-size: 1.5rem;
@@ -220,7 +237,7 @@ const Layout = ({ title, children }) => {
           color: white;
         }
         pre {
-          background: #fafafa;
+          nd: #fafafa;
           border-radius: 5px;
           padding: 0.75rem;
           text-align: center;
@@ -250,10 +267,35 @@ const Layout = ({ title, children }) => {
             flex-direction: column;
           }
         }
+          /*定义滚动条高宽及背景
+          高宽分别对应横竖滚动条的尺寸*/
+        ::-webkit-scrollbar
+          {
+              width:4px;
+              height:4px;
+              background-color:#F5F5F5;
+          }
+          /*定义滚动条轨道
+          内阴影+圆角*/
+          ::-webkit-scrollbar-track
+          {
+              -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+              border-radius:10px;
+              background-color:#F5F5F5;
+          }
+          /*定义滑块
+          内阴影+圆角*/
+          ::-webkit-scrollbar-thumb
+          {
+              border-radius:10px;
+              -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);
+              background-color:#555;
+          }
       `}</style>
         </div>
         {/* 页脚 */}
         <Footer
+          style={{ marginTop: 10 }}
           maxColumnsPerRow={4}
           theme={theme}
           columns={[
@@ -340,6 +382,7 @@ const Layout = ({ title, children }) => {
           ]}
           bottom="&copy;dayzKo1"
         />
+        {/* 侧边菜单 */}
       </div>
     </>
   )
