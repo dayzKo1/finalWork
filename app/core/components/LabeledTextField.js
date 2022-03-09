@@ -1,5 +1,6 @@
 import { forwardRef } from "react"
 import { useField } from "react-final-form"
+
 export const LabeledTextField = forwardRef(
   ({ name, label, outerProps, fieldProps, labelProps, ...props }, ref) => {
     const {
@@ -41,13 +42,15 @@ export const LabeledTextField = forwardRef(
             display: flex;
             flex-direction: column;
             align-items: start;
-            font-size: 1rem;
+            font-weight: 600;
+            font-size:16px;
+            color: grey;
           }
           input {
             font-size: 1rem;
             padding: 0.25rem 0.5rem;
             border-radius: 3px;
-            border: 1px solid purple;
+            border: '1px solid #e9e9e9',
             appearance: none;
             margin-top: 0.5rem;
           }

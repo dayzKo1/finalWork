@@ -34,7 +34,7 @@ const SearchHome = (props) => {
         alignItems: "center",
         width: "100%",
         background: !affixed ? "transparent" : "white",
-        boxShadow: !affixed ? "" : "2px 2px 2px #888888",
+        boxShadow: !affixed ? "" : "1px 1px 1px #888888",
       }}
     >
       <Search
@@ -417,10 +417,10 @@ const MenuHome = () => {
               overflowY: "scroll",
             }}
           >
-            <h2>
-              <strong>{item.name}</strong>
-            </h2>
-            <Divider style={{ minWidth: "20%", width: "97%" }} />
+            <div style={{ padding: "12px 0 0px 8px", fontSize: 24, fontWeight: 600 }}>
+              {item.name}
+            </div>
+            <Divider style={{ minWidth: "20%", width: "97%", marginTop: 10, marginBottom: 5 }} />
             <Row>
               {item.children.map((item, index) => {
                 return (
@@ -716,120 +716,6 @@ const HotComp = () => {
   )
 }
 
-const MenuSide = (props) => {
-  const [hover, setHover] = useState(false)
-  const { affixed } = props
-  const sideData = [
-    {
-      name: "首页",
-      icon: <HomeOutlined />,
-      href: Routes.Home(),
-    },
-    {
-      name: "问答",
-      icon: <QuestionCircleOutlined />,
-      href: Routes.QuestionsPage(),
-    },
-    {
-      name: "职位",
-      icon: <ReconciliationOutlined />,
-      href: Routes.RecruitsPage(),
-    },
-    {
-      name: "求职",
-      icon: <HighlightOutlined />,
-      href: Routes.Home(),
-    },
-    {
-      name: "设置",
-      icon: <SettingOutlined />,
-      href: Routes.Home(),
-    },
-  ]
-  return (
-    <div
-      style={{
-        position: "fixed",
-        background: "white",
-        zIndex: 1000,
-        right: 0,
-        bottom: 0,
-        textAlign: "center",
-        height: affixed ? "100vh" : "calc(100vh - 64px)",
-        width: hover ? 80 : 50,
-        transition: "width 0.2s, height 0.2s",
-        cursor: "pointer",
-      }}
-      onMouseOver={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      {/* <HeartOutlined /> */}
-      <div
-        style={{
-          paddingTop: "10vh",
-          height: "40vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
-        {sideData.map((item, index) => {
-          return (
-            <Link href={item.href} key={index}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <div style={{ fontSize: 20 }}>{item.icon}</div>
-                <div
-                  style={{
-                    fontSize: 10,
-                    color: hover ? "black" : "white",
-                    transition: "color 0.3s",
-                  }}
-                >
-                  {item.name}
-                </div>
-              </div>
-            </Link>
-          )
-        })}
-      </div>
-
-      <div
-        style={{
-          paddingTop: "10vh",
-          height: "40vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
-        {sideData.map((item, index) => {
-          return (
-            <Link href={item.href} key={index}>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{ fontSize: 20 }}>{item.icon}</div>
-                <div
-                  style={{
-                    fontSize: 10,
-                    color: hover ? "black" : "white",
-                    transition: "color 0.3s",
-                  }}
-                >
-                  {item.name}
-                </div>
-              </div>
-            </Link>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
 const Home = () => {
   const [affixed, setAffixed] = useState(false)
 
@@ -838,8 +724,6 @@ const Home = () => {
       <Affix offsetTop={0} style={{ width: 1916, zIndex: 999 }} onChange={(e) => setAffixed(e)}>
         <SearchHome affixed={affixed} />
       </Affix>
-
-      <MenuSide affixed={affixed} />
       <div
         style={{
           display: "flex",
@@ -852,12 +736,6 @@ const Home = () => {
       <HotRru />
 
       <HotComp />
-
-      <BackTop visibilityHeight={0} style={{ marginRight: "20vh", marginBottom: "20vh" }}>
-        <Button shape="circle" style={{ boxShadow: "2px 2px 2px #888888" }}>
-          <UpOutlined />
-        </Button>
-      </BackTop>
 
       {/* <Graph /> */}
       <style jsx global>

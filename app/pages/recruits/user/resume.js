@@ -180,7 +180,7 @@ export const AppliesList = () => {
             </List>
           ) : (
             <Empty
-              style={{ height: 600, width: 800, background: "white", padding: 50 }}
+              style={{ height: 600, width: 800, background: "white", padding: 50, margin: 0 }}
               description="暂无数据"
             />
           )}

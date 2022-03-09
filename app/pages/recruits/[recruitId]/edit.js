@@ -28,7 +28,6 @@ export const EditRecruit = () => {
       </Head>
 
       <div>
-        <h1>编辑招聘信息</h1>
         <RecruitForm
           submitText="保存" // TODO use a zod schema for form validation
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
@@ -71,7 +70,7 @@ const EditRecruitPage = () => {
         </Button>
       </div>
       <Suspense fallback={antIcon}>
-        <Card hoverable style={{ marginTop: 20 }}>
+        <Card style={{ marginTop: 20 }}>
           <EditRecruit />
         </Card>
       </Suspense>

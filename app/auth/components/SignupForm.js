@@ -7,12 +7,14 @@ import { Signup, editUser } from "app/auth/validations"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { message } from "antd"
 import { Field, useField } from "react-final-form"
+import InputControl from "app/core/components/InputControl"
+import { Box, Heading } from "@chakra-ui/react"
 
 const style = {
   fontSize: "1rem",
   padding: "0.25rem 0.5rem",
   borderRadius: "3px",
-  border: "1px solid purple",
+  border: "1px solid #e9e9e9",
   appearance: "none",
   marginTop: "0.5rem",
   marginBottom: " 0.5rem",
@@ -41,6 +43,7 @@ export const SignupForm = (props) => {
     "事业单位",
     "其他",
   ]
+
   const sizes = [
     "不限",
     "20人以下",
@@ -63,90 +66,94 @@ export const SignupForm = (props) => {
     })
 
   return (
-    <div>
-      <h1>{props.edit ? "修改个人信息" : "创建账号"}</h1>
-      <Form
-        submitText="确认"
-        schema={props.edit ? editUser : Signup}
-        initialValues={{
-          email: props.edit ? currentUser?.email : "",
-          password: "",
-          role: props.edit ? currentUser?.role : "USER",
-          name: props.edit ? currentUser?.name : "",
-          companyKind: props.edit ? currentUser?.companyKind : "",
-          companySize: props.edit ? currentUser?.companySize : "",
-        }}
-        onSubmit={async (values) => {
-          try {
-            if (props.edit) {
-              await editUserMutation(values)
-              message.success("修改成功")
-            } else {
-              await signupMutation(values)
-            }
-            props.onSuccess?.()
-          } catch (error) {
-            if (error.code === "P2002" && error.meta?.target?.includes("email")) {
-              // This error comes from Prisma
-              return {
-                email: "该邮箱已被使用",
-              }
-            } else {
-              return {
-                [FORM_ERROR]: error.toString(),
-              }
-            }
-          }
-        }}
+    <Box transform="scale(1.2)">
+      <Box
+        as="form"
+        p={10}
+        borderWidth="1px"
+        rounded="lg"
+        shadow="1px 1px 3px rgba(0,0,0,0.3)"
+        alignItems="center"
+        bg="#fdeff0"
+        borderRadius="6px"
+        d="flex"
+        my="80px"
       >
-        <LabeledTextField name="name" label="Name" placeholder="Name" />
-        <LabeledTextField name="email" label="Email" placeholder="Email" />
-        <Condition when="role" is="COMPANY">
-          <label>公司性质</label>
-          <Field name="companyKind" component="select" style={style}>
-            {renderOptions(kinds)}
-          </Field>
-        </Condition>
-        <Condition when="role" is="COMPANY">
-          <label>公司规模</label>
-          <Field name="companySize" component="select" style={style}>
-            {renderOptions(sizes)}
-          </Field>
-        </Condition>
+        <Form
+          submitText={props.edit ? "确认" : "注册"}
+          schema={props.edit ? editUser : Signup}
+          initialValues={{
+            email: props.edit ? currentUser?.email : "",
+            password: "",
+            role: props.edit ? currentUser?.role : "USER",
+            name: props.edit ? currentUser?.name : "",
+            companyKind: props.edit ? currentUser?.companyKind : "",
+            companySize: props.edit ? currentUser?.companySize : "",
+          }}
+          onSubmit={async (values) => {
+            try {
+              if (props.edit) {
+                await editUserMutation(values)
+                message.success("修改成功")
+              } else {
+                await signupMutation(values)
+              }
+              props.onSuccess?.()
+            } catch (error) {
+              if (error.code === "P2002" && error.meta?.target?.includes("email")) {
+                // This error comes from Prisma
+                return {
+                  email: "该邮箱已被使用",
+                }
+              } else {
+                return {
+                  [FORM_ERROR]: error.toString(),
+                }
+              }
+            }
+          }}
+        >
+          <InputControl name="name" label="姓名" />
 
-        {/* 重置密码 */}
-        {props.edit ? (
+          <InputControl name="email" label="邮箱" />
+
+          <InputControl name="password" label="密码" type="password" />
+
           <div>
-            <Link href={Routes.ForgotPasswordPage()}>
-              <a>重置密码</a>
-            </Link>
-          </div>
-        ) : (
-          <div>
-            <label>Role</label>
+            <label>类型</label>
             <Field name="role" component="select" style={style}>
-              <option value="USER">User</option>
-              <option value="COMPANY">Company</option>
+              <option value="USER">用户</option>
+              <option value="COMPANY">企业</option>
             </Field>
-            <LabeledTextField
-              name="password"
-              label="Password"
-              placeholder="Password"
-              type="password"
-            />
           </div>
-        )}
-      </Form>
 
-      <style jsx>{`
-        label {
-          display: flex;
-          flex-direction: column;
-          align-items: start;
-          font-size: 1rem;
-        }
-      `}</style>
-    </div>
+          <Condition when="role" is="COMPANY">
+            <label>公司性质</label>
+            <Field name="companyKind" component="select" style={style}>
+              {renderOptions(kinds)}
+            </Field>
+          </Condition>
+
+          <Condition when="role" is="COMPANY">
+            <label>公司规模</label>
+            <Field name="companySize" component="select" style={style}>
+              {renderOptions(sizes)}
+            </Field>
+          </Condition>
+        </Form>
+
+        <style jsx>{`
+          label {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            font-weight: 600;
+            font-size: 16px;
+            color: grey;
+          }
+        `}</style>
+      </Box>
+    </Box>
   )
 }
 export default SignupForm

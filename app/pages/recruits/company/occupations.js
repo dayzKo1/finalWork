@@ -12,6 +12,7 @@ import createCollect from "app/collects/mutations/createCollect"
 import getCollects from "app/collects/queries/getCollects"
 import deleteCollect from "app/collects/mutations/deleteCollect"
 import { FixedSizeList as List } from "react-window"
+import SideCards from "app/pages/components/SideCards"
 const { Search } = Input
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 
@@ -186,13 +187,12 @@ export const AppliesList = () => {
       >
         <Table columns={columns} dataSource={applierData} pagination={false}></Table>
       </Modal>
-      <Modal></Modal>
       <h2 style={{ color: "wheat", marginTop: 15, textAlign: "center" }}>我的职位</h2>
       <div
         style={{
           display: "flex",
           marginTop: 20,
-          width: 1065,
+          width: 1200,
         }}
       >
         <div>
@@ -202,13 +202,13 @@ export const AppliesList = () => {
               height={600}
               itemCount={recruitData.length}
               itemSize={130}
-              width={800}
+              width={900}
             >
               {Row}
             </List>
           ) : (
             <Empty
-              style={{ height: 600, width: 800, background: "white", padding: 50 }}
+              style={{ height: 600, width: 900, background: "white", padding: 50 }}
               description="暂无数据"
             />
           )}
@@ -229,18 +229,7 @@ export const AppliesList = () => {
             )}
           </div>
         </div>
-        <div style={{ marginTop: -10 }}>
-          <Card
-            hoverable
-            style={{ width: 244, margin: "10px 10px 0px 10px", height: 138, borderRadius: 6 }}
-            cover={<Image layout="fill" alt="" src="/backgroudImage1.png" />}
-          ></Card>
-          <Card
-            hoverable
-            style={{ width: 244, margin: "10px 10px 10px 10px", height: 138, borderRadius: 6 }}
-            cover={<Image layout="fill" alt="" src="/backgroudImage2.png" />}
-          ></Card>
-        </div>
+        <SideCards top={-10} />
 
         <style jsx>
           {`

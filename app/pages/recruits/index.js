@@ -1,5 +1,5 @@
 import { Suspense, useState, useCallback } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, Routes, Image, useMutation } from "blitz"
+import { Head, Link, usePaginatedQuery, useRouter, Routes, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getRecruits from "app/recruits/queries/getRecruits"
 import { Button, Card, Tag, message, Input, Empty, Divider } from "antd"
@@ -13,6 +13,7 @@ import getCollects from "app/collects/queries/getCollects"
 import deleteCollect from "app/collects/mutations/deleteCollect"
 import { FixedSizeList as List } from "react-window"
 import { useLayoutEffect } from "react-layout-effect"
+import SideCards from "../components/SideCards"
 
 const { Search } = Input
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
@@ -249,13 +250,13 @@ export const RecruitsList = () => {
         style={{
           display: "flex",
           borderTop: "1px solid white",
-          width: 1065,
+          width: 1200,
         }}
       >
         <div>
           <Card
             style={{
-              width: 800,
+              width: 900,
               marginRight: 10,
               background: "none",
               border: "none",
@@ -272,13 +273,13 @@ export const RecruitsList = () => {
               height={600}
               itemCount={recruitData.length}
               itemSize={150}
-              width={800}
+              width={900}
             >
               {Row}
             </List>
           ) : (
             <Empty
-              style={{ height: 600, width: 800, background: "white", padding: 50, margin: 0 }}
+              style={{ height: 600, width: 900, background: "white", padding: 50, margin: 0 }}
               description="暂无数据"
             />
           )}
@@ -299,18 +300,9 @@ export const RecruitsList = () => {
             )}
           </div>
         </div>
-        <div style={{ marginTop: 55 }}>
-          <Card
-            hoverable
-            style={{ width: 244, margin: "10px 10px 0px 10px", height: 138, borderRadius: 6 }}
-            cover={<Image layout="fill" alt="" src="/backgroudImage1.png" />}
-          ></Card>
-          <Card
-            hoverable
-            style={{ width: 244, margin: "10px 10px 10px 10px", height: 138, borderRadius: 6 }}
-            cover={<Image layout="fill" alt="" src="/backgroudImage2.png" />}
-          ></Card>
-        </div>
+
+        <SideCards />
+
         <style jsx>
           {`
             :global(.ant-card-body) {
