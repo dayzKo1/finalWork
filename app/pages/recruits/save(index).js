@@ -444,7 +444,7 @@
 //   return (
 //     <div>
 //       <Search
-//         placeholder="搜索职位、公司"
+//         placeholder="搜索关键词"
 //         allowClear
 //         enterButton="搜索"
 //         size="large"

@@ -1,36 +1,38 @@
 import { Suspense, useState, useReducer } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Image, useMutation } from "blitz"
+import { Router } from "next/dist/client/router"
+
 import Layout from "app/core/layouts/Layout"
-import getRecruits from "app/recruits/queries/getRecruits"
 import { Button, Card, Tag, message, Input, Empty, Modal, Table, Space, Divider } from "antd"
 import { LoadingOutlined } from "@ant-design/icons"
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-import createApply from "app/applies/mutations/createApply"
-import getApplies from "app/applies/queries/getApplies"
-import { Router } from "next/dist/client/router"
-import createCollect from "app/collects/mutations/createCollect"
-import getCollects from "app/collects/queries/getCollects"
-import deleteCollect from "app/collects/mutations/deleteCollect"
 import { FixedSizeList as List } from "react-window"
 import SideCards from "app/pages/components/SideCards"
 const { Search } = Input
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 
+// controller
+import getRecruits from "app/recruits/queries/getRecruits"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import createApply from "app/applies/mutations/createApply"
+import getApplies from "app/applies/queries/getApplies"
+import createCollect from "app/collects/mutations/createCollect"
+import getCollects from "app/collects/queries/getCollects"
+import deleteCollect from "app/collects/mutations/deleteCollect"
+import updateApply from "app/applies/mutations/updateApply"
+
 export const AppliesList = () => {
+  const [updateApplyMutation] = useMutation(updateApply)
+  const [click, setClick] = useState(["default1"])
+
   const router = useRouter()
   const currentUser = useCurrentUser()
-  const [Applied, setApplied] = useState(false)
-  const [Collected, setCollected] = useState(false)
   const [{ collects }] = usePaginatedQuery(getCollects, {
     orderBy: {
       id: "asc",
     },
     skip: 0,
     take: 100,
-    Collected,
   })
-  const [page, setPage] = useState(0)
-  const [search, setSearch] = useState("")
 
   const [{ recruits, count }] = usePaginatedQuery(getRecruits, {
     orderBy: {
@@ -41,16 +43,7 @@ export const AppliesList = () => {
     orderBy: {
       id: "asc",
     },
-    skip: 0,
-    take: 100,
-    Applied,
   })
-
-  const status = (arr, m, n) => {
-    return arr.some((item, index, arr) => {
-      return item?.userId === m?.id && item?.recruitId === n?.id
-    })
-  }
 
   const [recruitData, setRecruData] = useState(
     recruits.filter((item, index) => {
@@ -133,9 +126,14 @@ export const AppliesList = () => {
       newData[index] = {
         ...item.user,
         applyId: item.id,
+        status: item.status,
       }
     })
     setApplierData(newData)
+    setClick([
+      ...(newData?.map((item) => item.status === false && item.applyId) ?? ["default2"]),
+      ...click,
+    ])
   }
   const handleOk = () => {
     setIsModalVisible(false)
@@ -163,13 +161,22 @@ export const AppliesList = () => {
     },
     {
       title: "操作",
-      key: "address",
-      render: (_, row) => (
+      key: "control",
+      dataIndex: "applyId",
+      render: (v, row) => (
         <Space size="middle">
-          <Button type="primary"> 沟通 </Button>
-          <Button type="primary" danger>
-            {" "}
-            拒绝{" "}
+          <Button type="primary">沟通</Button>
+          <Button
+            type="primary"
+            danger
+            onClick={() => {
+              updateApplyMutation({ id: v, status: false })
+              setClick([...click, v])
+              message.info("已拒绝")
+            }}
+            disabled={click.includes(v)}
+          >
+            {click.includes(v) === true ? "已拒绝" : "拒绝"}
           </Button>
         </Space>
       ),
@@ -208,7 +215,7 @@ export const AppliesList = () => {
             </List>
           ) : (
             <Empty
-              style={{ height: 600, width: 900, background: "white", padding: 50 }}
+              style={{ height: 600, width: 900, background: "white", padding: 50, margin: 0 }}
               description="暂无数据"
             />
           )}

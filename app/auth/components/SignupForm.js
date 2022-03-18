@@ -32,20 +32,9 @@ export const SignupForm = (props) => {
     </Field>
   )
 
-  const kinds = [
-    "不限",
-    "国企",
-    "外企",
-    "合资",
-    "民营",
-    "上市公司",
-    "股份制企业",
-    "事业单位",
-    "其他",
-  ]
+  const kinds = ["国企", "外企", "合资", "民营", "上市公司", "股份制企业", "事业单位", "其他"]
 
   const sizes = [
-    "不限",
     "20人以下",
     "20-99人",
     "100-299人",
@@ -117,7 +106,7 @@ export const SignupForm = (props) => {
 
           <InputControl name="email" label="邮箱" />
 
-          <InputControl name="password" label="密码" type="password" />
+          {!props.edit && <InputControl name="password" label="密码" type="password" />}
 
           <div>
             <label>类型</label>

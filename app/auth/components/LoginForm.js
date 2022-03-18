@@ -71,6 +71,7 @@ export const LoginForm = (props) => {
           }}
         >
           <InputControl name="email" label="邮箱" />
+
           <InputControl name="password" label="密码" type="password" eye />
 
           <div

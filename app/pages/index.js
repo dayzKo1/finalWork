@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Image, Link, useMutation, Routes, useRouter } from "blitz"
-import { Input, Affix, Tabs, Row, Col, Divider, Button, Card, BackTop } from "antd"
+import { Input, Affix, Tabs, Row, Col, Divider, Button, Card, BackTop, Avatar } from "antd"
 import {
   RightOutlined,
   UpOutlined,
@@ -10,6 +10,7 @@ import {
   ReconciliationOutlined,
   HighlightOutlined,
   SettingOutlined,
+  UserOutlined,
 } from "@ant-design/icons"
 import Layout from "app/core/layouts/Layout"
 import Item from "antd/lib/list/Item"
@@ -38,7 +39,7 @@ const SearchHome = (props) => {
       }}
     >
       <Search
-        placeholder="搜索职位、公司"
+        placeholder="搜索关键词"
         allowClear
         enterButton="搜索"
         size="large"
@@ -491,6 +492,7 @@ const HotRru = () => {
       CompanyName: "彩付(上海)智能科技有限公司",
       type: "民营",
       size: "20-99人",
+      id: 1,
     },
     {
       RecruName: "前端工程师",
@@ -501,6 +503,7 @@ const HotRru = () => {
       CompanyName: "彩付(上海)智能科技有限公司",
       type: "民营",
       size: "20-99人",
+      id: 1,
     },
     {
       RecruName: "前端工程师",
@@ -511,6 +514,7 @@ const HotRru = () => {
       CompanyName: "彩付(上海)智能科技有限公司",
       type: "民营",
       size: "20-99人",
+      id: 1,
     },
     {
       RecruName: "前端工程师",
@@ -521,6 +525,7 @@ const HotRru = () => {
       CompanyName: "彩付(上海)智能科技有限公司",
       type: "民营",
       size: "20-99人",
+      id: 1,
     },
     {
       RecruName: "前端工程师",
@@ -531,6 +536,7 @@ const HotRru = () => {
       CompanyName: "彩付(上海)智能科技有限公司",
       type: "民营",
       size: "20-99人",
+      id: 1,
     },
     {
       RecruName: "前端工程师",
@@ -541,8 +547,10 @@ const HotRru = () => {
       CompanyName: "彩付(上海)智能科技有限公司",
       type: "民营",
       size: "20-99人",
+      id: 1,
     },
   ]
+  const router = useRouter()
   return (
     <div style={{ width: 1200 }}>
       <Card bodyStyle={{ padding: 0 }} style={{ background: "transparent" }} bordered={false}>
@@ -582,13 +590,25 @@ const HotRru = () => {
                     </div>
                   }
                   bordered={false}
+                  onClick={() =>
+                    router.push(
+                      Routes.ShowRecruitPage({
+                        recruitId: item.id,
+                      })
+                    )
+                  }
                 >
-                  <div style={{ margin: "0 20px" }}>
-                    <div>{item.CompanyName}</div>
+                  <div style={{ display: "flex", alignItems: "center", marginLeft: 20 }}>
                     <div>
-                      {item.type}
-                      <Divider type="vertical" />
-                      {item.size}
+                      <Avatar icon={<UserOutlined />} style={{ marginRight: 10 }} />
+                    </div>
+                    <div>
+                      {item.CompanyName}
+                      <div>
+                        {item.type}
+                        <Divider type="vertical" />
+                        {item.size}
+                      </div>
                     </div>
                   </div>
                 </Card>
@@ -699,7 +719,10 @@ const HotComp = () => {
                   bordered={false}
                 >
                   <div style={{ margin: "0 20px" }}>
-                    <div>{item.CompanyName}</div>
+                    <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
+                      <Avatar icon={<UserOutlined />} style={{ marginRight: 10 }} />
+                      {item.CompanyName}
+                    </div>
                     <div>
                       {item.type}
                       <Divider type="vertical" />

@@ -34,21 +34,28 @@ export const QuestionsList = () => {
     })
 
   return (
-    <Card style={{ width: 1200, marginTop: 10 }}>
+    <Card
+      style={{
+        width: 1200,
+        marginTop: 10,
+      }}
+    >
       <List
         size="large"
         // bordered
         dataSource={questions}
         renderItem={(item) => (
-          <List.Item>
-            <Link
-              href={Routes.ShowQuestionPage({
-                questionId: item.id,
-              })}
-            >
-              <a>{item.text}</a>
-            </Link>
-          </List.Item>
+          <>
+            <List.Item>
+              <Link
+                href={Routes.ShowQuestionPage({
+                  questionId: item.id,
+                })}
+              >
+                <a>{item.text}</a>
+              </Link>
+            </List.Item>
+          </>
         )}
       />
 

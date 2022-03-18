@@ -125,11 +125,6 @@ export const Recruit = () => {
                 margin: 10,
               }}
             >
-              <Button type="primary" style={{ marginRight: 10 }}>
-                <Link href={Routes.RecruitsPage()}>
-                  <a>返回招聘信息列表</a>
-                </Link>
-              </Button>
               <Button type="primary">
                 <Link
                   href={Routes.EditRecruitPage({
@@ -218,6 +213,13 @@ export const Recruit = () => {
 const ShowRecruitPage = () => {
   return (
     <div style={{ width: 1040 }}>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 10 }}>
+        <Button type="primary" style={{ marginTop: 10 }}>
+          <Link href={Routes.RecruitsPage()}>
+            <a>返回招聘信息列表</a>
+          </Link>
+        </Button>
+      </div>
       <Suspense fallback={antIcon}>
         <Recruit />
       </Suspense>

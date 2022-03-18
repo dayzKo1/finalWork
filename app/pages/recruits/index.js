@@ -237,13 +237,14 @@ export const RecruitsList = () => {
     <div>
       <div>
         <Search
-          placeholder="搜索职位、公司"
+          placeholder="搜索关键词"
           allowClear
           enterButton="搜索"
           size="large"
           onSearch={(e) => onSearch(e)}
           onChange={(e) => onSearch(e.target.value)}
           style={{ width: 1065, margin: 20 }}
+          value={search}
         />
       </div>
       <div

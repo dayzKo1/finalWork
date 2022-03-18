@@ -147,7 +147,7 @@ const MenuSide = (props) => {
     {
       name: "简历",
       icon: <HighlightOutlined />,
-      href: Routes.Home(),
+      href: Routes.ResumePage(),
     },
     {
       name: "设置",
@@ -264,7 +264,7 @@ const Layout = ({ title, children }) => {
                 <Link href={Routes.RecruitsPage()}>职位</Link>
               </Menu.Item>
               <Menu.Item key="Home2" icon={<HighlightOutlined style={{ fontSize: "1.1rem" }} />}>
-                <Link href={Routes.Home()}>简历</Link>
+                <Link href={Routes.ResumePage()}>简历</Link>
               </Menu.Item>
               <Suspense fallback={antIcon}>
                 <UserInfo setCurrent={setCurrent} />
