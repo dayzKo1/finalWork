@@ -5,7 +5,7 @@ import getQuestion from "app/questions/queries/getQuestion"
 import updateQuestion from "app/questions/mutations/updateQuestion"
 import { QuestionForm, FORM_ERROR } from "app/questions/components/QuestionForm"
 import { LoadingOutlined } from "@ant-design/icons"
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 export const EditQuestion = () => {
   const router = useRouter()
   const questionId = useParam("questionId", "number")

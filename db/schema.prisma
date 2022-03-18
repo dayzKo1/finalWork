@@ -23,9 +23,11 @@ model User {
   tokens         Token[]
   sessions       Session[]
   Recruits       Recruit[]
-  // 该账号发布的招聘信息
-
-  Apply Apply[]
+  Apply          Apply[]
+  Collect        Collect[]
+  Resume         Resume[]
+  companyKind    String
+  companySize    String
 }
 
 model Session {
@@ -85,26 +87,27 @@ model Choice {
   questionId Int
 }
 
-model Job {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-}
-
 model Recruit {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  user        User?    @relation(fields: [userId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User?     @relation(fields: [userId], references: [id])
   userId      Int?
-  salary      String
+  Apply       Apply[]
+  collect     Collect[]
+  salaryMax   String?
+  salaryMin   String?
   description String
   detail      String
-  Apply       Apply[]
+  city        String
+  year        String
+  educ        String
+  type        String
+  avai        String
 }
 
+// 申请
 model Apply {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -113,4 +116,87 @@ model Apply {
   userId    Int?
   recruit   Recruit? @relation(fields: [recruitId], references: [id])
   recruitId Int?
+  status    Boolean  @default(true)
+}
+
+// 收藏
+model Collect {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  recruit   Recruit? @relation(fields: [recruitId], references: [id])
+  recruitId Int?
+}
+
+// 简历
+model Resume {
+  id          Int      @id @default(autoincrement())
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  gender      String // 性别
+  age         String // 年龄
+  status      String // 求职状态
+  prefer      String // 求职意向
+  advance     String // 个人优势
+  works       String // 个人作品
+  educExp     Educ[] // 教育经历
+  inteExp     Inte[] // 工作/实习经历
+  projExp     Proj[] // 项目经历
+  studExp     Stud[] // 学生干部经历
+  language    Lang[] // 语言能力
+  skills      Skil[] // 专业技能
+  certificate Cert[] // 证书
+}
+
+model Educ {
+  id       Int    @id @default(autoincrement())
+  content  String
+  Resume   Resume @relation(fields: [ResumeId], references: [id])
+  ResumeId Int
+}
+
+model Inte {
+  id       Int    @id @default(autoincrement())
+  content  String
+  Resume   Resume @relation(fields: [ResumeId], references: [id])
+  ResumeId Int
+}
+
+model Proj {
+  id       Int    @id @default(autoincrement())
+  content  String
+  Resume   Resume @relation(fields: [ResumeId], references: [id])
+  ResumeId Int
+}
+
+model Stud {
+  id       Int    @id @default(autoincrement())
+  content  String
+  Resume   Resume @relation(fields: [ResumeId], references: [id])
+  ResumeId Int
+}
+
+model Lang {
+  id       Int    @id @default(autoincrement())
+  content  String
+  Resume   Resume @relation(fields: [ResumeId], references: [id])
+  ResumeId Int
+}
+
+model Skil {
+  id       Int    @id @default(autoincrement())
+  content  String
+  Resume   Resume @relation(fields: [ResumeId], references: [id])
+  ResumeId Int
+}
+
+model Cert {
+  id       Int    @id @default(autoincrement())
+  content  String
+  Resume   Resume @relation(fields: [ResumeId], references: [id])
+  ResumeId Int
 }

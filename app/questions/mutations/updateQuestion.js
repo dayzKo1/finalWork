@@ -19,10 +19,6 @@ export default resolver.pipe(
 
         choices: {
           upsert: data.choices.map((choice) => ({
-            // Appears to be a prisma bug,
-
-            // because `|| 0` shouldn't be needed
-
             where: { id: choice.id || 0 },
 
             create: { text: choice.text },

@@ -3,7 +3,7 @@ import { useRouter, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { SignupForm } from "app/auth/components/SignupForm"
 import { LoadingOutlined } from "@ant-design/icons"
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 const EditUserPage = () => {
   const router = useRouter()
   return (

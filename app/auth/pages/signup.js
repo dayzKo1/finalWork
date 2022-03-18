@@ -3,7 +3,7 @@ import Layout from "app/core/layouts/Layout"
 import { SignupForm } from "app/auth/components/SignupForm"
 import { Suspense } from "react"
 import { LoadingOutlined } from "@ant-design/icons"
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 const SignupPage = () => {
   const router = useRouter()
   return (

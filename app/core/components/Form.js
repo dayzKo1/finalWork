@@ -26,18 +26,23 @@ export function Form({ children, submitText, schema, initialValues, onSubmit, ..
           )}
 
           {submitText && (
-            <Button type="primary" onClick={() => form.submit()} disabled={submitting || pristine}>
+            <Button
+              style={{ width: "100%", borderRadius: 8 }}
+              type="primary"
+              onClick={() => form.submit()}
+              disabled={submitting || pristine}
+            >
               {submitText}
             </Button>
           )}
 
-          <Button
+          {/* <Button
             onClick={() => form.reset()}
             disabled={submitting || pristine}
             style={{ marginLeft: "1rem" }}
           >
             重置
-          </Button>
+          </Button> */}
 
           <style global jsx>{`
             .form > * + * {

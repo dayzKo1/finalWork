@@ -1,13 +1,24 @@
 import { Head, Image, Link, useMutation, Routes, useRouter } from "blitz"
-import { Menu, Dropdown } from "antd"
+import { Menu, Dropdown, Affix, BackTop, Button } from "antd"
 import React, { useState, Suspense } from "react"
+import { useLayoutEffect } from "react-layout-effect"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
-import { MailOutlined, AppstoreOutlined, SettingOutlined, TrophyOutlined } from "@ant-design/icons"
+import {
+  MailOutlined,
+  AppstoreOutlined,
+  SettingOutlined,
+  TrophyOutlined,
+  LoadingOutlined,
+  HomeOutlined,
+  QuestionCircleOutlined,
+  ReconciliationOutlined,
+  HighlightOutlined,
+  UpOutlined,
+} from "@ant-design/icons"
 import Footer from "rc-footer"
 import "rc-footer/assets/index.css"
-import { LoadingOutlined } from "@ant-design/icons"
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />
+const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 
 const menu = (currentUser, setCurrent) => (
   <Menu>
@@ -16,12 +27,35 @@ const menu = (currentUser, setCurrent) => (
         <div onClick={() => setCurrent("0")}>个人信息</div>
       </Link>
     </Menu.Item>
+
     {currentUser.role === "COMPANY" && (
-      <Menu.Item>
-        <Link href={Routes.AppliesPage()}>
-          <div onClick={() => setCurrent("0")}>职位管理</div>
-        </Link>
-      </Menu.Item>
+      <>
+        <Menu.Item>
+          <Link href={Routes.AppliesPage()}>
+            <div onClick={() => setCurrent("0")}>我的职位</div>
+          </Link>
+        </Menu.Item>
+      </>
+    )}
+
+    {currentUser.role === "USER" && (
+      <>
+        <Menu.Item>
+          <Link href={Routes.CollectsPage()}>
+            <div onClick={() => setCurrent("0")}>我的收藏</div>
+          </Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link href={Routes.MyAppliesPage()}>
+            <div onClick={() => setCurrent("0")}>我的申请</div>
+          </Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link href={Routes.ResumePage()}>
+            <div onClick={() => setCurrent("0")}>我的简历</div>
+          </Link>
+        </Menu.Item>
+      </>
     )}
   </Menu>
 )
@@ -54,7 +88,20 @@ const UserInfo = (props) => {
           >
             退出
           </a>
-          用户名： {currentUser.name}({currentUser.role})
+          用户名：
+          <div
+            title={`${currentUser.name}(${currentUser.role})}`}
+            style={{
+              textOverflow: "ellipsis",
+              width: 100,
+              position: "absolute",
+              overflow: "hidden",
+              top: 10,
+              right: 350,
+            }}
+          >
+            {currentUser.name}({currentUser.role})
+          </div>
         </div>
       </>
     )
@@ -77,15 +124,107 @@ const UserInfo = (props) => {
     )
   }
 }
+
+const MenuSide = (props) => {
+  const [hover, setHover] = useState(false)
+  const { affixed } = props
+  const sideData = [
+    {
+      name: "首页",
+      icon: <HomeOutlined />,
+      href: Routes.Home(),
+    },
+    {
+      name: "问答",
+      icon: <QuestionCircleOutlined />,
+      href: Routes.QuestionsPage(),
+    },
+    {
+      name: "职位",
+      icon: <ReconciliationOutlined />,
+      href: Routes.RecruitsPage(),
+    },
+    {
+      name: "简历",
+      icon: <HighlightOutlined />,
+      href: Routes.ResumePage(),
+    },
+    {
+      name: "设置",
+      icon: <SettingOutlined />,
+      href: Routes.Home(),
+    },
+  ]
+  return (
+    <div
+      style={{
+        position: "fixed",
+        background: "white",
+        zIndex: 1000,
+        right: 0,
+        bottom: 0,
+        textAlign: "center",
+        height: affixed ? "100vh" : "calc(100vh - 64px)",
+        width: hover ? 60 : 40,
+        transition: "width 0.2s, height 0.2s",
+        cursor: "pointer",
+        borderLeft: "1px solid #e9e9e9",
+      }}
+      onMouseOver={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      {/* <HeartOutlined /> */}
+      <div
+        style={{
+          paddingTop: "10vh",
+          height: "40vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
+        {sideData.map((item, index) => {
+          return (
+            <Link href={item.href} key={index}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <div style={{ fontSize: 20 }}>{item.icon}</div>
+                <div
+                  style={{
+                    fontSize: 10,
+                    color: hover ? "black" : "white",
+                    transition: "color 0.3s",
+                  }}
+                >
+                  {item.name}
+                </div>
+              </div>
+            </Link>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 const Layout = ({ title, children }) => {
+  useLayoutEffect(() => {
+    setCurrent(title)
+  }, [title])
   const [current, setCurrent] = useState(title)
   const [theme, setTheme] = useState("dark")
+  const [affixed, setAffixed] = useState(false)
   return (
     <>
       <div
         style={{
-          backgroundImage: `url('/mountains.jpg')`,
-          backgroundRepeat: "no-repeat",
+          // backgroundImage: `url('/mountains.jpg')`,
+          // backgroundRepeat: "no-repeat",
+          background: "whitesmoke",
         }}
       >
         <div className="container">
@@ -94,33 +233,57 @@ const Layout = ({ title, children }) => {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           {/* 顶部菜单 */}
-          <div style={{ width: "100%" }}>
+          <div style={{ width: "100%", fontSize: 40 }}>
             <Menu
               onClick={(e) => setCurrent(e.key)}
               selectedKeys={[current]}
               mode="horizontal"
               theme="dark"
-              style={{ display: "flex", justifyContent: "center" }}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                fontSize: "1.1rem",
+                height: "4rem",
+                alignItems: "center",
+                marginLeft: "-7.2rem",
+              }}
             >
-              <Menu.Item key="Home" icon={<AppstoreOutlined />}>
+              <Menu.Item key="Home" icon={<HomeOutlined style={{ fontSize: "1.1rem" }} />}>
                 <Link href={Routes.Home()}>首页</Link>
               </Menu.Item>
-              <Menu.Item key="Questions" icon={<MailOutlined />}>
+              <Menu.Item
+                key="Questions"
+                icon={<QuestionCircleOutlined style={{ fontSize: "1.1rem" }} />}
+              >
                 <Link href={Routes.QuestionsPage()}>问答</Link>
               </Menu.Item>
-              <Menu.Item key="Home1" icon={<SettingOutlined />}>
-                <Link href={Routes.RecruitsPage()}>招聘</Link>
+              <Menu.Item
+                key="Recruits"
+                icon={<ReconciliationOutlined style={{ fontSize: "1.1rem" }} />}
+              >
+                <Link href={Routes.RecruitsPage()}>职位</Link>
               </Menu.Item>
-              <Menu.Item key="Home2" icon={<TrophyOutlined />}>
-                <Link href={Routes.Home()}>求职</Link>
+              <Menu.Item key="Home2" icon={<HighlightOutlined style={{ fontSize: "1.1rem" }} />}>
+                <Link href={Routes.ResumePage()}>简历</Link>
               </Menu.Item>
               <Suspense fallback={antIcon}>
                 <UserInfo setCurrent={setCurrent} />
               </Suspense>
             </Menu>
           </div>
+          {/* 侧边菜单 */}
+          <Affix offsetTop={0} onChange={(e) => setAffixed(e)} />
+          <MenuSide affixed={affixed} />
+          <BackTop visibilityHeight={0} style={{ marginRight: "20vh", marginBottom: "20vh" }}>
+            <Button shape="circle" style={{ boxShadow: "2px 2px 2px #888888" }}>
+              <UpOutlined />
+            </Button>
+          </BackTop>
           {/* 主体 */}
-          <main>{children}</main>
+          <main>
+            {" "}
+            <Suspense fallback={antIcon}>{children} </Suspense>
+          </main>
           <style jsx global>{`
         @import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;700&display=swap"); */}
         html,
@@ -141,6 +304,7 @@ const Layout = ({ title, children }) => {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+
         }
         main {
           flex: 1;
@@ -150,7 +314,7 @@ const Layout = ({ title, children }) => {
           max-width:1200px;
         }
         main p {
-          font-size: 1.2rem;
+          font-size: 1.5rem;
         }
         p {
           text-align: center;
@@ -166,11 +330,12 @@ const Layout = ({ title, children }) => {
           margin-left:30rem;
         }
         .buttons2 {
+          font-size:1.1rem;
           order: 4;
-          margin-left:25rem;
+          margin-left:32rem;
         }
         .button {
-          font-size: 0.8rem;
+          font-size:1.1rem;
           padding: 1rem 2rem;
           text-align: center;
         }
@@ -179,10 +344,10 @@ const Layout = ({ title, children }) => {
           padding: 0rem 1rem;
         }
         .button:hover {
-          color: #1890ff;
+          color: white;
         }
         pre {
-          background: #fafafa;
+          nd: #fafafa;
           border-radius: 5px;
           padding: 0.75rem;
           text-align: center;
@@ -197,9 +362,14 @@ const Layout = ({ title, children }) => {
           align-items: center;
           justify-content: center;
           flex-wrap: wrap;
-
           max-width: 800px;
           margin-top: 3rem;
+        }
+        .ant-menu.ant-menu-dark .ant-menu-item-selected {
+          background-color:transparent;
+        }
+        .ant-menu-dark.ant-menu-horizontal>.ant-menu-item:hover {
+          background-color:transparent;
         }
         @media (max-width: 600px) {
           .grid {
@@ -207,10 +377,35 @@ const Layout = ({ title, children }) => {
             flex-direction: column;
           }
         }
+          /*定义滚动条高宽及背景
+          高宽分别对应横竖滚动条的尺寸*/
+        ::-webkit-scrollbar
+          {
+              width:4px;
+              height:4px;
+              background-color:#F5F5F5;
+          }
+          /*定义滚动条轨道
+          内阴影+圆角*/
+          ::-webkit-scrollbar-track
+          {
+              -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+              border-radius:10px;
+              background-color:#F5F5F5;
+          }
+          /*定义滑块
+          内阴影+圆角*/
+          ::-webkit-scrollbar-thumb
+          {
+              border-radius:10px;
+              -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);
+              background-color:#555;
+          }
       `}</style>
         </div>
         {/* 页脚 */}
         <Footer
+          style={{ marginTop: 10 }}
           maxColumnsPerRow={4}
           theme={theme}
           columns={[
@@ -297,6 +492,7 @@ const Layout = ({ title, children }) => {
           ]}
           bottom="&copy;dayzKo1"
         />
+        {/* 侧边菜单 */}
       </div>
     </>
   )

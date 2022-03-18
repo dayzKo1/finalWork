@@ -4,9 +4,15 @@ import { z } from "zod"
 const UpdateRecruit = z.object({
   id: z.number(),
   name: z.string(),
-  salary: z.string(),
+  salaryMax: z.string(),
+  salaryMin: z.string(),
   description: z.string(),
   detail: z.string(),
+  city: z.string(),
+  year: z.string(),
+  educ: z.string(),
+  type: z.string(),
+  avai: z.string(),
 })
 export default resolver.pipe(
   resolver.zod(UpdateRecruit),

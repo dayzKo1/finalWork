@@ -5,7 +5,7 @@ export default resolver.pipe(
   async ({ where, orderBy, skip = 0, take = 100 }) => {
     // TODO: in multi-tenant app, you must add validation to ensure correct tenant
     const {
-      items: jobs,
+      items: collects,
       hasMore,
       nextPage,
       count,
@@ -13,13 +13,13 @@ export default resolver.pipe(
       skip,
       take,
       count: () =>
-        db.job.count({
+        db.collect.count({
           where,
         }),
-      query: (paginateArgs) => db.job.findMany({ ...paginateArgs, where, orderBy }),
+      query: (paginateArgs) => db.collect.findMany({ ...paginateArgs, where, orderBy }),
     })
     return {
-      jobs,
+      collects,
       nextPage,
       hasMore,
       count,
