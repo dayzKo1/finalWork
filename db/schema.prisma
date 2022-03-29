@@ -132,71 +132,22 @@ model Collect {
 
 // 简历
 model Resume {
-  id          Int      @id @default(autoincrement())
-  user        User?    @relation(fields: [userId], references: [id])
-  userId      Int?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  gender      String // 性别
-  age         String // 年龄
-  status      String // 求职状态
-  prefer      String // 求职意向
-  advance     String // 个人优势
-  works       String // 个人作品
-  educExp     Educ[] // 教育经历
-  inteExp     Inte[] // 工作/实习经历
-  projExp     Proj[] // 项目经历
-  studExp     Stud[] // 学生干部经历
-  language    Lang[] // 语言能力
-  skills      Skil[] // 专业技能
-  certificate Cert[] // 证书
-}
-
-model Educ {
-  id       Int    @id @default(autoincrement())
-  content  String
-  Resume   Resume @relation(fields: [ResumeId], references: [id])
-  ResumeId Int
-}
-
-model Inte {
-  id       Int    @id @default(autoincrement())
-  content  String
-  Resume   Resume @relation(fields: [ResumeId], references: [id])
-  ResumeId Int
-}
-
-model Proj {
-  id       Int    @id @default(autoincrement())
-  content  String
-  Resume   Resume @relation(fields: [ResumeId], references: [id])
-  ResumeId Int
-}
-
-model Stud {
-  id       Int    @id @default(autoincrement())
-  content  String
-  Resume   Resume @relation(fields: [ResumeId], references: [id])
-  ResumeId Int
-}
-
-model Lang {
-  id       Int    @id @default(autoincrement())
-  content  String
-  Resume   Resume @relation(fields: [ResumeId], references: [id])
-  ResumeId Int
-}
-
-model Skil {
-  id       Int    @id @default(autoincrement())
-  content  String
-  Resume   Resume @relation(fields: [ResumeId], references: [id])
-  ResumeId Int
-}
-
-model Cert {
-  id       Int    @id @default(autoincrement())
-  content  String
-  Resume   Resume @relation(fields: [ResumeId], references: [id])
-  ResumeId Int
+  id        Int      @id @default(autoincrement())
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  gender    String // 性别
+  age       String // 年龄
+  number    String // 电话
+  status    String // 求职状态
+  prefer    String // 求职意向
+  advance   String // 个人优势/作品
+  educ      String // 教育经历
+  inte      String // 工作/实习经历
+  proj      String // 项目经历
+  stud      String // 学生干部经历
+  lang      String // 语言能力
+  skil      String // 专业技能
+  cert      String // 证书
 }

@@ -38,7 +38,7 @@ const InputControl = ({ name, label, width, type, eye }) => {
   const [show, setShow] = useState(false)
   const handleClick = () => setShow(!show)
   return (
-    <Control name={name} my={30} w={width ?? 350} h={60}>
+    <Control name={name} my={30} w={width ?? 350} h={60} position="relative">
       <FormLabel htmlFor={name} pb={8} fontWeight={600} fontSize={16} color="grey">
         {" "}
         {label}
@@ -61,10 +61,7 @@ const InputControl = ({ name, label, width, type, eye }) => {
       />
       <InputRightElement>
         {type === "password" && eye && (
-          <div
-            onClick={handleClick}
-            style={{ paddingTop: 170, paddingRight: 25, color: "#40a9ff" }}
-          >
+          <div onClick={handleClick} style={{ paddingTop: 40, paddingRight: 15, color: "#40a9ff" }}>
             {!show ? <ViewIcon /> : <ViewOffIcon />}
           </div>
         )}

@@ -27,10 +27,10 @@ export const EditQuestion = () => {
       </Head>
 
       <div>
-        <h1>Edit Question {question.id}</h1>
+        <h1>编辑问答:{question.id}</h1>
 
         <QuestionForm
-          submitText="Update Question" // TODO use a zod schema for form validation
+          submitText="保存" // TODO use a zod schema for form validation
           //  - Tip: extract mutation's schema into a shared `validations.ts` file and
           //         then import and use it here
           // schema={UpdateQuestion}
@@ -68,7 +68,7 @@ const EditQuestionPage = () => {
 
       <p>
         <Link href={Routes.QuestionsPage()}>
-          <a>Questions</a>
+          <a>返回问答列表</a>
         </Link>
       </p>
     </div>

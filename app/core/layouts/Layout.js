@@ -20,15 +20,15 @@ import Footer from "rc-footer"
 import "rc-footer/assets/index.css"
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 
-const menu = (currentUser, setCurrent) => (
-  <Menu>
+const menu = (currentUser, setCurrent, type) => (
+  <Menu style={{ width: type === "side" && 60 }}>
     <Menu.Item>
       <Link href={Routes.EditUserPage()}>
         <div onClick={() => setCurrent("0")}>个人信息</div>
       </Link>
     </Menu.Item>
 
-    {currentUser.role === "COMPANY" && (
+    {currentUser?.role === "COMPANY" && (
       <>
         <Menu.Item>
           <Link href={Routes.AppliesPage()}>
@@ -38,7 +38,7 @@ const menu = (currentUser, setCurrent) => (
       </>
     )}
 
-    {currentUser.role === "USER" && (
+    {currentUser?.role === "USER" && (
       <>
         <Menu.Item>
           <Link href={Routes.CollectsPage()}>
@@ -90,7 +90,7 @@ const UserInfo = (props) => {
           </a>
           用户名：
           <div
-            title={`${currentUser.name}(${currentUser.role})}`}
+            title={`${currentUser.name}(${currentUser?.role})}`}
             style={{
               textOverflow: "ellipsis",
               width: 100,
@@ -100,7 +100,7 @@ const UserInfo = (props) => {
               right: 350,
             }}
           >
-            {currentUser.name}({currentUser.role})
+            {currentUser.name}({currentUser?.role})
           </div>
         </div>
       </>
@@ -127,6 +127,8 @@ const UserInfo = (props) => {
 
 const MenuSide = (props) => {
   const [hover, setHover] = useState(false)
+  const currentUser = useCurrentUser()
+  const [current, setCurrent] = useState(props.title)
   const { affixed } = props
   const sideData = [
     {
@@ -149,11 +151,11 @@ const MenuSide = (props) => {
       icon: <HighlightOutlined />,
       href: Routes.ResumePage(),
     },
-    {
-      name: "设置",
-      icon: <SettingOutlined />,
-      href: Routes.Home(),
-    },
+    // {
+    //   name: "设置",
+    //   icon: <SettingOutlined />,
+    //   href: Routes.Home(),
+    // },
   ]
   return (
     <div
@@ -206,6 +208,30 @@ const MenuSide = (props) => {
             </Link>
           )
         })}
+
+        <Dropdown overlay={menu(currentUser, setCurrent, "side")}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div style={{ fontSize: 20 }}>
+              <SettingOutlined />
+            </div>
+            <a
+              className="ant-dropdown-link"
+              onClick={(e) => e.preventDefault()}
+              style={{
+                fontSize: 10,
+                color: hover ? "black" : "white",
+                transition: "color 0.3s",
+              }}
+            >
+              编辑
+            </a>
+          </div>
+        </Dropdown>
       </div>
     </div>
   )
@@ -273,7 +299,9 @@ const Layout = ({ title, children }) => {
           </div>
           {/* 侧边菜单 */}
           <Affix offsetTop={0} onChange={(e) => setAffixed(e)} />
-          <MenuSide affixed={affixed} />
+          <Suspense fallback={antIcon}>
+            <MenuSide affixed={affixed} title={title} />
+          </Suspense>
           <BackTop visibilityHeight={0} style={{ marginRight: "20vh", marginBottom: "20vh" }}>
             <Button shape="circle" style={{ boxShadow: "2px 2px 2px #888888" }}>
               <UpOutlined />

@@ -22,7 +22,8 @@ const AdaptedTextarea = ({ input, meta, ...rest }) => (
     w={350}
     h={240}
     borderRadius={4}
-    pl={8}
+    p={12}
+    fontSize={16}
     border="1px solid #e9e9e9"
     {...input}
     {...rest}

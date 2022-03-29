@@ -20,6 +20,7 @@ import getApplies from "app/applies/queries/getApplies"
 import createCollect from "app/collects/mutations/createCollect"
 import getCollects from "app/collects/queries/getCollects"
 import deleteCollect from "app/collects/mutations/deleteCollect"
+import { getDate } from "app/pages/util/utils"
 
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 export const Recruit = () => {
@@ -32,19 +33,6 @@ export const Recruit = () => {
   const [createApplication] = useMutation(createApply)
 
   const currentUser = useCurrentUser()
-  const d = new Date(recruit?.updatedAt)
-  const date =
-    d.getFullYear() +
-    "-" +
-    (d.getMonth() + 1) +
-    "-" +
-    d.getDate() +
-    " " +
-    d.getHours() +
-    ":" +
-    d.getMinutes() +
-    ":" +
-    d.getSeconds()
   const [{ applies }] = usePaginatedQuery(getApplies, {
     orderBy: {
       id: "asc",
@@ -102,7 +90,7 @@ export const Recruit = () => {
             column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
           >
             <Descriptions.Item label="岗位名称">{recruit.name}</Descriptions.Item>
-            <Descriptions.Item label="最近更新">{date}</Descriptions.Item>
+            <Descriptions.Item label="最近更新">{getDate(recruit.updatedAt)}</Descriptions.Item>
             <Descriptions.Item label="岗位薪酬">
               {recruit.salaryMin}-{recruit.salaryMax}
             </Descriptions.Item>
@@ -116,7 +104,7 @@ export const Recruit = () => {
           </Descriptions>
         </Card>
 
-        {currentUser.role === "COMPANY" && currentUser.id === recruit.userId ? (
+        {currentUser?.role === "COMPANY" && currentUser.id === recruit.userId ? (
           <>
             <div
               style={{
@@ -152,9 +140,9 @@ export const Recruit = () => {
             </div>
           </>
         ) : (
-          currentUser.role === "USER" && (
+          currentUser?.role === "USER" && (
             <div>
-              <div style={{ cssFloat: "right", marginRight: 20 }}>
+              <div style={{ cssFloat: "right", margin: 10 }}>
                 <Button
                   type="primary"
                   onClick={async () => {
@@ -170,7 +158,7 @@ export const Recruit = () => {
                   {isApplied ? "已申请" : "申请"}
                 </Button>
               </div>
-              <div style={{ cssFloat: "right", marginRight: 20 }}>
+              <div style={{ cssFloat: "right", margin: 10 }}>
                 <Button
                   type="primary"
                   onClick={async () => {

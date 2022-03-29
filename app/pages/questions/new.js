@@ -11,7 +11,7 @@ const NewQuestionPage = () => {
       <h1>Create New Question</h1>
 
       <QuestionForm
-        submitText="Create Question"
+        submitText="保存"
         initialValues={{ choices: [] }}
         onSubmit={async (values) => {
           try {
@@ -32,7 +32,7 @@ const NewQuestionPage = () => {
 
       <p>
         <Link href={Routes.QuestionsPage()}>
-          <a>Questions</a>
+          <a>返回问答列表</a>
         </Link>
       </p>
     </div>

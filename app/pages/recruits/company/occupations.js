@@ -1,6 +1,5 @@
 import { Suspense, useState, useReducer } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Image, useMutation } from "blitz"
-import { Router } from "next/dist/client/router"
 
 import Layout from "app/core/layouts/Layout"
 import { Button, Card, Tag, message, Input, Empty, Modal, Table, Space, Divider } from "antd"
@@ -229,7 +228,7 @@ export const AppliesList = () => {
             <div style={{ marginRight: 10, marginTop: 5, color: "white" }}>{`共 ${
               recruitData.length ?? 0
             } 项`}</div>
-            {currentUser.role === "COMPANY" && (
+            {currentUser?.role === "COMPANY" && (
               <Button type="primary">
                 <Link href={Routes.NewRecruitPage()}>发布招聘信息</Link>
               </Button>

@@ -7,7 +7,6 @@ import { LoadingOutlined } from "@ant-design/icons"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import createApply from "app/applies/mutations/createApply"
 import getApplies from "app/applies/queries/getApplies"
-import { Router } from "next/dist/client/router"
 import createCollect from "app/collects/mutations/createCollect"
 import getCollects from "app/collects/queries/getCollects"
 import deleteCollect from "app/collects/mutations/deleteCollect"
@@ -108,7 +107,7 @@ export const CollectsList = () => {
               alignItems: "center",
             }}
           >
-            {currentUser.role === "USER" && (
+            {currentUser?.role === "USER" && (
               <>
                 <Button
                   style={{ marginRight: 10, width: 64, padding: 2 }}
@@ -202,7 +201,7 @@ export const CollectsList = () => {
             >
               {`共 ${recruitData.length ?? 0} 项`}
             </div>
-            {currentUser.role === "COMPANY" && (
+            {currentUser?.role === "COMPANY" && (
               <Button type="primary">
                 <Link href={Routes.NewRecruitPage()}>发布招聘信息</Link>
               </Button>
