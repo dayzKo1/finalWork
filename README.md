@@ -2,6 +2,8 @@
 
 blitz dev 启动
 
+blitz prisma migrate dev 数据库迁移
+
 blitz prisma studio 数据库 Web 界面
 
 blitz routes 所有路由
@@ -39,8 +41,6 @@ blitz generate model [fieldName]:[type]:[attribute]
 属于关系 blitz g model task belongsTo:project
 
 blitz generate crud choice text votes:int:default=0 belongsTo:question
-
-blitz prisma migrate dev 数据库迁移
 
 二、Q&A：
 1、AntDesign 组件触发 useEffectLayout warning <https://github.com/ant-design/ant-design/issues/30396>

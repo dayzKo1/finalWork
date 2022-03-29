@@ -179,7 +179,7 @@
 //               alignItems: "center",
 //             }}
 //           >
-//             {currentUser.role === "USER" && (
+//             {currentUser?.role === "USER" && (
 //               <>
 //                 <Button
 //                   style={{ marginRight: 10, width: 64, padding: 2 }}
@@ -293,7 +293,7 @@
 //             <div
 //               style={{ marginRight: 10, marginTop: 5, color: "white" }}
 //             >{`共 ${recruitData.length} 项`}</div>
-//             {currentUser.role === "COMPANY" && (
+//             {currentUser?.role === "COMPANY" && (
 //               <Button type="primary">
 //                 <Link href={Routes.NewRecruitPage()}>发布招聘信息</Link>
 //               </Button>
