@@ -8,7 +8,7 @@ const NewQuestionPage = () => {
   const [createQuestionMutation] = useMutation(createQuestion)
   return (
     <div>
-      <h1>Create New Question</h1>
+      <h1>创建新问题</h1>
 
       <QuestionForm
         submitText="保存"
@@ -32,7 +32,7 @@ const NewQuestionPage = () => {
 
       <p>
         <Link href={Routes.QuestionsPage()}>
-          <a>返回问答列表</a>
+          <a>返回问题列表</a>
         </Link>
       </p>
     </div>

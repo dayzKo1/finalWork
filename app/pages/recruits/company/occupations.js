@@ -2,7 +2,20 @@ import { Suspense, useState, useReducer } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Image, useMutation } from "blitz"
 
 import Layout from "app/core/layouts/Layout"
-import { Button, Card, Tag, message, Input, Empty, Modal, Table, Space, Divider } from "antd"
+import {
+  Button,
+  Card,
+  Tag,
+  message,
+  Input,
+  Empty,
+  Modal,
+  Table,
+  Space,
+  Divider,
+  Descriptions,
+  Badge,
+} from "antd"
 import { LoadingOutlined } from "@ant-design/icons"
 import { FixedSizeList as List } from "react-window"
 import SideCards from "app/pages/components/SideCards"
@@ -19,18 +32,19 @@ import getCollects from "app/collects/queries/getCollects"
 import deleteCollect from "app/collects/mutations/deleteCollect"
 import updateApply from "app/applies/mutations/updateApply"
 
+import getResumes from "app/resumes/queries/getResumes"
+
 export const AppliesList = () => {
   const [updateApplyMutation] = useMutation(updateApply)
   const [click, setClick] = useState(["default1"])
 
   const router = useRouter()
   const currentUser = useCurrentUser()
+
   const [{ collects }] = usePaginatedQuery(getCollects, {
     orderBy: {
       id: "asc",
     },
-    skip: 0,
-    take: 100,
   })
 
   const [{ recruits, count }] = usePaginatedQuery(getRecruits, {
@@ -38,7 +52,14 @@ export const AppliesList = () => {
       id: "asc",
     },
   })
+
   const [{ applies }] = usePaginatedQuery(getApplies, {
+    orderBy: {
+      id: "asc",
+    },
+  })
+
+  const [{ resumes }] = usePaginatedQuery(getResumes, {
     orderBy: {
       id: "asc",
     },
@@ -118,6 +139,10 @@ export const AppliesList = () => {
   )
   const [applierData, setApplierData] = useState([])
   const [isModalVisible, setIsModalVisible] = useState(false)
+
+  const [resumeData, setResumeData] = useState()
+  const [resumeModal, setResumeModal] = useState()
+
   const showModal = (data) => {
     setIsModalVisible(true)
     const newData = []
@@ -141,6 +166,11 @@ export const AppliesList = () => {
     setIsModalVisible(false)
   }
 
+  const showResume = (id) => {
+    setResumeData(resumes.filter((item) => item.userId === id))
+    setResumeModal(true)
+  }
+
   const columns = [
     {
       title: "姓名",
@@ -154,9 +184,14 @@ export const AppliesList = () => {
     },
     {
       title: "简历",
-      dataIndex: "resume",
-      key: "resume",
-      render: (v) => <Button type="primary">查看</Button>,
+      dataIndex: "id",
+      key: "id",
+      render: (v) => (
+        <Button type="primary" onClick={() => showResume(v)}>
+          {" "}
+          查看
+        </Button>
+      ),
     },
     {
       title: "操作",
@@ -164,7 +199,9 @@ export const AppliesList = () => {
       dataIndex: "applyId",
       render: (v, row) => (
         <Space size="middle">
-          <Button type="primary">沟通</Button>
+          <Button type="primary" href="https://mail.qq.com/" target="_blank">
+            沟通
+          </Button>
           <Button
             type="primary"
             danger
@@ -181,6 +218,73 @@ export const AppliesList = () => {
       ),
     },
   ]
+  const columnsResume = [
+    {
+      title: "姓名",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "性别",
+      dataIndex: "gender",
+      key: "gender",
+    },
+    {
+      title: "电话",
+      dataIndex: "number",
+      key: "number",
+    },
+    {
+      title: "求职状态",
+      dataIndex: "status",
+      key: "status",
+    },
+    {
+      title: "求职意向",
+      dataIndex: "prefer",
+      key: "prefer",
+    },
+    {
+      title: "个人优势/作品",
+      dataIndex: "advance",
+      key: "advance",
+    },
+    {
+      title: "教育经历",
+      dataIndex: "educ",
+      key: "educ",
+    },
+    {
+      title: "工作/实习经历",
+      dataIndex: "inte",
+      key: "inte",
+    },
+    {
+      title: "项目经历",
+      dataIndex: "proj",
+      key: "proj",
+    },
+    {
+      title: "学生干部经历",
+      dataIndex: "stud",
+      key: "stud",
+    },
+    {
+      title: "语言能力",
+      dataIndex: "lang",
+      key: "lang",
+    },
+    {
+      title: "专业技能",
+      dataIndex: "skil",
+      key: "skil",
+    },
+    {
+      title: "证书",
+      dataIndex: "cert",
+      key: "cert",
+    },
+  ]
 
   return (
     <>
@@ -190,9 +294,59 @@ export const AppliesList = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={false}
+        width={600}
       >
         <Table columns={columns} dataSource={applierData} pagination={false}></Table>
       </Modal>
+      <Modal
+        title="简历"
+        visible={resumeModal}
+        footer={false}
+        onCancel={() => setResumeModal(false)}
+        width={600}
+      >
+        {/* <Table columns={columnsResume} dataSource={resumeData} pagination={false} scroll={{ x: 600 }} ></Table> */}
+        <Descriptions layout="vertical" bordered style={{ height: 600, overflowY: "scroll" }}>
+          <Descriptions.Item label="姓名" span={1}>
+            {resumeData && resumeData[0]?.name}
+          </Descriptions.Item>
+          <Descriptions.Item label="性别" span={1}>
+            {resumeData && resumeData[0]?.gender}
+          </Descriptions.Item>
+          <Descriptions.Item label="求职状态" span={1}>
+            <Badge status="processing" text={resumeData && recruitData[0]?.status} />
+          </Descriptions.Item>
+          <Descriptions.Item label="求职意向" span={1}>
+            {resumeData && resumeData[0]?.prefer}
+          </Descriptions.Item>
+          <Descriptions.Item label="电话" span={2}>
+            {resumeData && resumeData[0]?.number}
+          </Descriptions.Item>
+          <Descriptions.Item label="个人优势/作品" span={3}>
+            {resumeData && resumeData[0]?.advancea}
+          </Descriptions.Item>
+          <Descriptions.Item label="教育经历" span={3}>
+            {resumeData && resumeData[0]?.educ}
+          </Descriptions.Item>
+          <Descriptions.Item label="工作/实习经历" span={3}>
+            {resumeData && resumeData[0]?.inte}
+          </Descriptions.Item>
+          <Descriptions.Item label="语言能力" span={3}>
+            {resumeData && resumeData[0]?.lang}
+          </Descriptions.Item>
+          <Descriptions.Item label="专业技能" span={3}>
+            {resumeData && resumeData[0]?.skil}
+          </Descriptions.Item>
+          <Descriptions.Item label="证书" span={3}>
+            {resumeData && resumeData[0]?.cert}
+          </Descriptions.Item>
+          <Descriptions.Item label="项目经历" span={3}>
+            {resumeData && resumeData[0]?.proj}
+          </Descriptions.Item>
+        </Descriptions>
+        ,
+      </Modal>
+
       <h2 style={{ color: "wheat", marginTop: 15, textAlign: "center" }}>我的职位</h2>
       <div
         style={{

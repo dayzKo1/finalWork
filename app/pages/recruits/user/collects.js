@@ -196,7 +196,6 @@ export const CollectsList = () => {
               style={{
                 marginRight: 10,
                 marginTop: 5,
-                color: "white",
               }}
             >
               {`共 ${recruitData.length ?? 0} 项`}

@@ -10,7 +10,6 @@ import InputControl from "app/core/components/InputControl"
 import NoteControl from "app/core/components/NoteControl"
 import updateResume from "app/resumes/mutations/updateResume"
 import createResume from "app/resumes/mutations/createResume"
-import getResume from "app/resumes/queries/getResume"
 
 import UploadImage from "app/pages/components/UploadImage"
 
@@ -41,6 +40,7 @@ export const ResumeList = () => {
           submitText="保存"
           // schema={props.edit ? editUser : Signup}
           initialValues={{
+            name: isExist ? currentUser.Resume[0].name : "",
             gender: isExist ? currentUser.Resume[0].gender : "",
             age: isExist ? currentUser.Resume[0].age : "",
             status: isExist ? currentUser.Resume[0].status : "",
@@ -86,7 +86,8 @@ export const ResumeList = () => {
           <Box d="flex">
             <Box p={24}>
               {/* <UploadImage /> */}
-              <Avatar icon={<UserOutlined />} />
+              {/* <Avatar icon={<UserOutlined />} /> */}
+              <InputControl name="name" label="姓名" />
               <InputControl name="gender" label="邮箱" />
               <InputControl name="age" label="年龄" />
               <InputControl name="number" label="电话" />

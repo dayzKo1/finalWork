@@ -137,6 +137,7 @@ model Resume {
   userId    Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  name      String // 姓名
   gender    String // 性别
   age       String // 年龄
   number    String // 电话

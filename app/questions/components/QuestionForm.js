@@ -4,10 +4,10 @@ export { FORM_ERROR } from "app/core/components/Form"
 export function QuestionForm(props) {
   return (
     <Form {...props}>
-      <LabeledTextField name="text" label="Text" placeholder="Text" />
-      <LabeledTextField name="choices.0.text" label="Choice 1" />
-      <LabeledTextField name="choices.1.text" label="Choice 2" />
-      <LabeledTextField name="choices.2.text" label="Choice 3" />
+      <LabeledTextField name="text" label="问题" placeholder="请输入问题" />
+      <LabeledTextField name="choices.0.text" label="选项1" />
+      <LabeledTextField name="choices.1.text" label="选项2" />
+      <LabeledTextField name="choices.2.text" label="选项3" />
     </Form>
   )
 }

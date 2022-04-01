@@ -45,17 +45,18 @@ export const QuestionsList = () => {
     <Card
       style={{
         width: 1200,
-        marginTop: 10,
+        marginTop: 20,
       }}
     >
       <List
         size="large"
         // bordered
+        style={{ height: 500 }}
         dataSource={questions}
         renderItem={(item) => (
           <List.Item>
             <div>
-              <div style={{ width: "100%", fontSize: 18 }}>
+              <div style={{ width: "100%", fontSize: 22 }}>
                 <Link
                   href={Routes.ShowQuestionPage({
                     questionId: item.id,
@@ -64,10 +65,10 @@ export const QuestionsList = () => {
                   {item.text}
                 </Link>
               </div>
-              <div>
+              <div style={{ fontSize: 14 }}>
                 <div>创建于: {getDate(item.createdAt)}</div>
                 <div>更新于: {getDate(item.updatedAt)}</div>
-                <div>总票数：{totalVotes(item.choices)}</div>
+                <div>参与数：{totalVotes(item.choices)}</div>
               </div>
             </div>
           </List.Item>

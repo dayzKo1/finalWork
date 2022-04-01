@@ -137,7 +137,7 @@ const MenuSide = (props) => {
       href: Routes.Home(),
     },
     {
-      name: "问答",
+      name: "问投",
       icon: <QuestionCircleOutlined />,
       href: Routes.QuestionsPage(),
     },
@@ -281,7 +281,7 @@ const Layout = ({ title, children }) => {
                 key="Questions"
                 icon={<QuestionCircleOutlined style={{ fontSize: "1.1rem" }} />}
               >
-                <Link href={Routes.QuestionsPage()}>问答</Link>
+                <Link href={Routes.QuestionsPage()}>问投</Link>
               </Menu.Item>
               <Menu.Item
                 key="Recruits"
@@ -292,6 +292,9 @@ const Layout = ({ title, children }) => {
               <Menu.Item key="Home2" icon={<HighlightOutlined style={{ fontSize: "1.1rem" }} />}>
                 <Link href={Routes.ResumePage()}>简历</Link>
               </Menu.Item>
+              {/* <Menu.Item key="Home2" icon={<HighlightOutlined style={{ fontSize: "1.1rem" }} />}>
+                <Link href={Routes.ResumePage()}>分析</Link>
+              </Menu.Item> */}
               <Suspense fallback={antIcon}>
                 <UserInfo setCurrent={setCurrent} />
               </Suspense>
