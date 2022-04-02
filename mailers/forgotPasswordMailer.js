@@ -4,38 +4,34 @@
  * and then export it. That way you can import here and anywhere else
  * and use it straight away.
  */
-import previewEmail from "preview-email";
-export function forgotPasswordMailer({
-  to,
-  token
-}) {
+import previewEmail from "preview-email"
+export function forgotPasswordMailer({ to, token }) {
   // In production, set APP_ORIGIN to your production server origin
-  const origin = process.env.APP_ORIGIN || process.env.BLITZ_DEV_SERVER_ORIGIN;
-  const resetUrl = `${origin}/reset-password?token=${token}`;
+  const origin = process.env.APP_ORIGIN || process.env.BLITZ_DEV_SERVER_ORIGIN
+  const resetUrl = `${origin}/reset-password?token=${token}`
   const msg = {
-    from: "TODO@example.com",
-    to,
-    subject: "Your Password Reset Instructions",
+    // from: "TODO@example.com",
+    // to,
+    // subject: "Your Password Reset Instructions",
     html: `
-      <h1>Reset Your Password</h1>
-      <h3>NOTE: You must set up a production email integration in mailers/forgotPasswordMailer.ts</h3>
-
+      <h1>重置密码</h1>
       <a href="${resetUrl}">
-        Click here to set a new password
+        点击该链接设置新密码
       </a>
-    `
-  };
+    `,
+  }
+
+  //<h3>NOTE: You must set up a production email integration in mailers/forgotPasswordMailer.ts</h3>
   return {
     async send() {
       if (process.env.NODE_ENV === "production") {
         // TODO - send the production email, like this:
         // await postmark.sendEmail(msg)
-        throw new Error("No production email implementation in mailers/forgotPasswordMailer");
+        throw new Error("No production email implementation in mailers/forgotPasswordMailer")
       } else {
         // Preview email in the browser
-        await previewEmail(msg);
+        await previewEmail(msg)
       }
-    }
-
-  };
+    },
+  }
 }

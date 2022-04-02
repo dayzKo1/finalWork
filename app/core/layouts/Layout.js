@@ -15,6 +15,7 @@ import {
   ReconciliationOutlined,
   HighlightOutlined,
   UpOutlined,
+  LineChartOutlined,
 } from "@ant-design/icons"
 import Footer from "rc-footer"
 import "rc-footer/assets/index.css"
@@ -151,11 +152,11 @@ const MenuSide = (props) => {
       icon: <HighlightOutlined />,
       href: Routes.ResumePage(),
     },
-    // {
-    //   name: "设置",
-    //   icon: <SettingOutlined />,
-    //   href: Routes.Home(),
-    // },
+    {
+      name: "分析",
+      icon: <LineChartOutlined />,
+      href: Routes.Analysis(),
+    },
   ]
   return (
     <div

@@ -23,6 +23,12 @@ export default resolver.pipe(
         companySize: true,
       },
     })
+    await db.record.create({
+      data: {
+        userId: user.id,
+        times: 1,
+      },
+    })
     await ctx.session.$create({
       userId: user.id,
       role: user.role,

@@ -20,14 +20,15 @@ model User {
   email          String    @unique
   hashedPassword String?
   role           String    @default("USER")
+  companyKind    String
+  companySize    String
   tokens         Token[]
   sessions       Session[]
   Recruits       Recruit[]
   Apply          Apply[]
   Collect        Collect[]
   Resume         Resume[]
-  companyKind    String
-  companySize    String
+  Record         Record[]
 }
 
 model Session {
@@ -151,4 +152,13 @@ model Resume {
   lang      String // 语言能力
   skil      String // 专业技能
   cert      String // 证书
+}
+
+model Record {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  times     Int?     @default(1)
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 }
