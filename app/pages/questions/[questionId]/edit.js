@@ -27,7 +27,7 @@ export const EditQuestion = () => {
       </Head>
 
       <div>
-        <h1>编辑问答:{question.id}</h1>
+        <h1>编辑问题:{question.id}</h1>
 
         <QuestionForm
           submitText="保存" // TODO use a zod schema for form validation
@@ -68,7 +68,7 @@ const EditQuestionPage = () => {
 
       <p>
         <Link href={Routes.QuestionsPage()}>
-          <a>返回问答列表</a>
+          <a>返回问题列表</a>
         </Link>
       </p>
     </div>

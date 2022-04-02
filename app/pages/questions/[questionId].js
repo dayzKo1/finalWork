@@ -109,7 +109,7 @@ const ShowQuestionPage = () => {
     <div>
       <p>
         <Link href={Routes.QuestionsPage()}>
-          <a>返回问答列表</a>
+          <a>返回问题列表</a>
         </Link>
       </p>
 

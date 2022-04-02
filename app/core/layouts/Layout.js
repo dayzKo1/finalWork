@@ -15,6 +15,7 @@ import {
   ReconciliationOutlined,
   HighlightOutlined,
   UpOutlined,
+  LineChartOutlined,
 } from "@ant-design/icons"
 import Footer from "rc-footer"
 import "rc-footer/assets/index.css"
@@ -137,7 +138,7 @@ const MenuSide = (props) => {
       href: Routes.Home(),
     },
     {
-      name: "问答",
+      name: "问投",
       icon: <QuestionCircleOutlined />,
       href: Routes.QuestionsPage(),
     },
@@ -151,11 +152,11 @@ const MenuSide = (props) => {
       icon: <HighlightOutlined />,
       href: Routes.ResumePage(),
     },
-    // {
-    //   name: "设置",
-    //   icon: <SettingOutlined />,
-    //   href: Routes.Home(),
-    // },
+    {
+      name: "分析",
+      icon: <LineChartOutlined />,
+      href: Routes.Analysis(),
+    },
   ]
   return (
     <div
@@ -281,7 +282,7 @@ const Layout = ({ title, children }) => {
                 key="Questions"
                 icon={<QuestionCircleOutlined style={{ fontSize: "1.1rem" }} />}
               >
-                <Link href={Routes.QuestionsPage()}>问答</Link>
+                <Link href={Routes.QuestionsPage()}>问投</Link>
               </Menu.Item>
               <Menu.Item
                 key="Recruits"
@@ -292,6 +293,9 @@ const Layout = ({ title, children }) => {
               <Menu.Item key="Home2" icon={<HighlightOutlined style={{ fontSize: "1.1rem" }} />}>
                 <Link href={Routes.ResumePage()}>简历</Link>
               </Menu.Item>
+              {/* <Menu.Item key="Home2" icon={<HighlightOutlined style={{ fontSize: "1.1rem" }} />}>
+                <Link href={Routes.ResumePage()}>分析</Link>
+              </Menu.Item> */}
               <Suspense fallback={antIcon}>
                 <UserInfo setCurrent={setCurrent} />
               </Suspense>

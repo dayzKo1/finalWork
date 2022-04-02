@@ -4,6 +4,7 @@ import { z } from "zod"
 
 const UpdateResume = z.object({
   id: z.number(),
+  name: z.string(), // 姓名
   gender: z.string(), // 性别
   age: z.string(), // 年龄
   status: z.string(), // 求职状态

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, Suspense } from "react"
 import { Image, Link, useMutation, Routes, useRouter } from "blitz"
 import { Input, Affix, Tabs, Row, Col, Divider, Button, Card, BackTop, Avatar } from "antd"
 import {
@@ -11,11 +11,15 @@ import {
   HighlightOutlined,
   SettingOutlined,
   UserOutlined,
+  LoadingOutlined,
 } from "@ant-design/icons"
 import Layout from "app/core/layouts/Layout"
 import Item from "antd/lib/list/Item"
 import { set } from "zod"
 
+import HotRru from "app/pages/components/HotCru"
+import HotCollect from "app/pages/components/HotCollect"
+const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 const { TabPane } = Tabs
 const { Search } = Input
 
@@ -481,264 +485,6 @@ const HeaderHome = () => {
   )
 }
 
-const HotRru = () => {
-  const hotData = [
-    {
-      RecruName: "前端工程师",
-      salary: "1.2万-1.6万",
-      city: "上海",
-      year: "3-5年",
-      educ: "本科",
-      CompanyName: "彩付(上海)智能科技有限公司",
-      type: "民营",
-      size: "20-99人",
-      id: 1,
-    },
-    {
-      RecruName: "前端工程师",
-      salary: "1.2万-1.6万",
-      city: "上海",
-      year: "3-5年",
-      educ: "本科",
-      CompanyName: "彩付(上海)智能科技有限公司",
-      type: "民营",
-      size: "20-99人",
-      id: 1,
-    },
-    {
-      RecruName: "前端工程师",
-      salary: "1.2万-1.6万",
-      city: "上海",
-      year: "3-5年",
-      educ: "本科",
-      CompanyName: "彩付(上海)智能科技有限公司",
-      type: "民营",
-      size: "20-99人",
-      id: 1,
-    },
-    {
-      RecruName: "前端工程师",
-      salary: "1.2万-1.6万",
-      city: "上海",
-      year: "3-5年",
-      educ: "本科",
-      CompanyName: "彩付(上海)智能科技有限公司",
-      type: "民营",
-      size: "20-99人",
-      id: 1,
-    },
-    {
-      RecruName: "前端工程师",
-      salary: "1.2万-1.6万",
-      city: "上海",
-      year: "3-5年",
-      educ: "本科",
-      CompanyName: "彩付(上海)智能科技有限公司",
-      type: "民营",
-      size: "20-99人",
-      id: 1,
-    },
-    {
-      RecruName: "前端工程师",
-      salary: "1.2万-1.6万",
-      city: "上海",
-      year: "3-5年",
-      educ: "本科",
-      CompanyName: "彩付(上海)智能科技有限公司",
-      type: "民营",
-      size: "20-99人",
-      id: 1,
-    },
-  ]
-  const router = useRouter()
-  return (
-    <div style={{ width: 1200 }}>
-      <Card bodyStyle={{ padding: 0 }} style={{ background: "transparent" }} bordered={false}>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <Divider plain style={{ minWidth: 0, width: "30%", fontSize: 24, fontWeight: 600 }}>
-            热招岗位
-          </Divider>
-        </div>
-
-        <Row gutter={16}>
-          {hotData.map((item, index) => {
-            return (
-              <Col key={index} span={8} style={{ marginBottom: 10 }}>
-                <Card
-                  headStyle={{ margin: "0 20px" }}
-                  hoverable
-                  style={{ background: "white" }}
-                  title={
-                    <div>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          fontWeight: 600,
-                        }}
-                      >
-                        <div>{item.RecruName}</div>
-                        <div>{item.salary}</div>
-                      </div>
-                      <div>
-                        {item.city}
-                        <Divider style={{ color: "white" }} type="vertical" />
-                        {item.year}
-                        <Divider type="vertical" />
-                        {item.educ}
-                      </div>
-                    </div>
-                  }
-                  bordered={false}
-                  onClick={() =>
-                    router.push(
-                      Routes.ShowRecruitPage({
-                        recruitId: item.id,
-                      })
-                    )
-                  }
-                >
-                  <div style={{ display: "flex", alignItems: "center", marginLeft: 20 }}>
-                    <div>
-                      <Avatar icon={<UserOutlined />} style={{ marginRight: 10 }} />
-                    </div>
-                    <div>
-                      {item.CompanyName}
-                      <div>
-                        {item.type}
-                        <Divider type="vertical" />
-                        {item.size}
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </Col>
-            )
-          })}
-        </Row>
-      </Card>
-    </div>
-  )
-}
-
-const HotComp = () => {
-  const hotData = [
-    {
-      RecruName: "前端工程师",
-      salary: "1.2万-1.6万",
-      city: "上海",
-      year: "3-5年",
-      educ: "本科",
-      CompanyName: "彩付(上海)智能科技有限公司",
-      type: "民营",
-      size: "20-99人",
-    },
-    {
-      RecruName: "前端工程师",
-      salary: "1.2万-1.6万",
-      city: "上海",
-      year: "3-5年",
-      educ: "本科",
-      CompanyName: "彩付(上海)智能科技有限公司",
-      type: "民营",
-      size: "20-99人",
-    },
-    {
-      RecruName: "前端工程师",
-      salary: "1.2万-1.6万",
-      city: "上海",
-      year: "3-5年",
-      educ: "本科",
-      CompanyName: "彩付(上海)智能科技有限公司",
-      type: "民营",
-      size: "20-99人",
-    },
-    {
-      RecruName: "前端工程师",
-      salary: "1.2万-1.6万",
-      city: "上海",
-      year: "3-5年",
-      educ: "本科",
-      CompanyName: "彩付(上海)智能科技有限公司",
-      type: "民营",
-      size: "20-99人",
-    },
-    {
-      RecruName: "前端工程师",
-      salary: "1.2万-1.6万",
-      city: "上海",
-      year: "3-5年",
-      educ: "本科",
-      CompanyName: "彩付(上海)智能科技有限公司",
-      type: "民营",
-      size: "20-99人",
-    },
-    {
-      RecruName: "前端工程师",
-      salary: "1.2万-1.6万",
-      city: "上海",
-      year: "3-5年",
-      educ: "本科",
-      CompanyName: "彩付(上海)智能科技有限公司",
-      type: "民营",
-      size: "20-99人",
-    },
-  ]
-  return (
-    <div style={{ width: 1200 }}>
-      <Card bodyStyle={{ padding: 0 }} style={{ background: "transparent" }} bordered={false}>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <Divider plain style={{ minWidth: 0, width: "30%", fontSize: 24, fontWeight: 600 }}>
-            热门企业
-          </Divider>
-        </div>
-
-        <Row gutter={16}>
-          {hotData.map((item, index) => {
-            return (
-              <Col key={index} span={8} style={{ marginBottom: 10 }}>
-                <Card
-                  headStyle={{ margin: "0 20px" }}
-                  hoverable
-                  style={{ background: "white" }}
-                  title={
-                    <div>
-                      <div style={{ display: "flex", justifyContent: "space-between" }}>
-                        <div>{item.RecruName}</div>
-                        <div>{item.salary}</div>
-                      </div>
-                      <div>
-                        {item.city}
-                        <Divider style={{ color: "white" }} type="vertical" />
-                        {item.year}
-                        <Divider type="vertical" />
-                        {item.educ}
-                      </div>
-                    </div>
-                  }
-                  bordered={false}
-                >
-                  <div style={{ margin: "0 20px" }}>
-                    <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
-                      <Avatar icon={<UserOutlined />} style={{ marginRight: 10 }} />
-                      {item.CompanyName}
-                    </div>
-                    <div>
-                      {item.type}
-                      <Divider type="vertical" />
-                      {item.size}
-                    </div>
-                  </div>
-                </Card>
-              </Col>
-            )
-          })}
-        </Row>
-      </Card>
-    </div>
-  )
-}
-
 const Home = () => {
   const [affixed, setAffixed] = useState(false)
 
@@ -755,11 +501,11 @@ const Home = () => {
         <MenuHome />
         <HeaderHome />
       </div>
-
       <HotRru />
+      <HotCollect />
+      {/* <Suspense fallback={antIcon}>
 
-      <HotComp />
-
+      </Suspense> */}
       {/* <Graph /> */}
       <style jsx global>
         {`

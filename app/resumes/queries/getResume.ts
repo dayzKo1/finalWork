@@ -4,7 +4,7 @@ import { z } from "zod"
 
 const GetResume = z.object({
   // This accepts type of undefined, but is required at runtime
-  id: z.number().optional().refine(Boolean, "Required"),
+  id: z.number().optional(),
   userId: z.number().optional(),
 })
 
