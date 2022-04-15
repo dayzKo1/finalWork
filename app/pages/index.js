@@ -455,11 +455,13 @@ const HeaderHome = () => {
       <div style={{ display: "flex", flexWrap: "wrap", width: 665, marginRight: 10 }}>
         <Card
           hoverable
+          onClick={() => window.open("https://www.zhipin.com")}
           style={{ width: 665, height: 265, margin: "0 0 5px 0", borderRadius: 10 }}
           cover={<Image layout="fill" alt="" src="/header/header1.jpg" />}
         ></Card>
         <Card
           hoverable
+          onClick={() => window.open("https://www.zhipin.com")}
           style={{ width: 1065, height: 160, margin: "0 0 5px 0", borderRadius: 10 }}
           cover={<Image layout="fill" alt="" src="/header/header2.jpg" />}
         ></Card>
@@ -467,16 +469,19 @@ const HeaderHome = () => {
       <div style={{ display: "flex", flexWrap: "wrap", width: 300 }}>
         <Card
           hoverable
+          onClick={() => window.open("https://www.zhipin.com")}
           style={{ width: 300, height: 130, margin: "0 0 5px 0", borderRadius: 10 }}
           cover={<Image layout="fill" alt="" src="/header/header3.jpg" />}
         ></Card>
         <Card
           hoverable
+          onClick={() => window.open("https://www.zhipin.com")}
           style={{ width: 300, height: 130, margin: "0 0 5px 0", borderRadius: 10 }}
           cover={<Image layout="fill" alt="" src="/header/header4.jpg" />}
         ></Card>
         <Card
           hoverable
+          onClick={() => window.open("https://www.zhipin.com")}
           style={{ width: 300, height: 160, margin: "0 0 5px 0", borderRadius: 10 }}
           cover={<Image layout="fill" alt="" src="/header/header5.jpg" />}
         ></Card>
