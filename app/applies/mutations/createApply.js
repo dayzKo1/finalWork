@@ -4,6 +4,7 @@ import { z } from "zod"
 const CreateApply = z.object({
   userId: z.number(),
   recruitId: z.number(),
+  status: z.string(),
 })
 export default resolver.pipe(resolver.zod(CreateApply), resolver.authorize(), async (input) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
@@ -12,6 +13,7 @@ export default resolver.pipe(resolver.zod(CreateApply), resolver.authorize(), as
       ...input,
       userId: input.userId,
       recruitId: input.recruitId,
+      status: input.status,
     },
   })
   return apply

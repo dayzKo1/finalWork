@@ -3,7 +3,7 @@ import db from "db"
 import { z } from "zod"
 const UpdateApply = z.object({
   id: z.number(),
-  status: z.boolean(),
+  status: z.string(),
 })
 export default resolver.pipe(
   resolver.zod(UpdateApply),

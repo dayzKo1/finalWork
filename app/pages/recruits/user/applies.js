@@ -122,7 +122,14 @@ export const AppliesList = () => {
                   }}
                   disabled={status(applies, currentUser, recruitData[index])}
                 >
-                  {status(applies, currentUser, recruitData[index]) ? "已申请" : "申请"}
+                  {
+                    Object.values(applies).filter(
+                      (item) =>
+                        item.userId === currentUser.id &&
+                        item.recruitId === recruitData[index]?.id &&
+                        status
+                    )[0].status
+                  }
                 </Button>
 
                 <Button

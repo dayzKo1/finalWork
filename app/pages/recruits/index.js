@@ -192,6 +192,7 @@ export const RecruitsList = () => {
                     await createApplication({
                       userId: currentUser?.id,
                       recruitId: recruitData[index]?.id,
+                      status: "待定",
                     })
                     setApplied(!Applied)
                     message.success("申请成功")

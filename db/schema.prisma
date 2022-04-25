@@ -117,7 +117,7 @@ model Apply {
   userId    Int?
   recruit   Recruit? @relation(fields: [recruitId], references: [id])
   recruitId Int?
-  status    Boolean  @default(true)
+  status    String   @default("待定")
 }
 
 // 收藏

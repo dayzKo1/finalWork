@@ -16,6 +16,7 @@ import {
   HighlightOutlined,
   UpOutlined,
   LineChartOutlined,
+  MacCommandOutlined,
 } from "@ant-design/icons"
 import Footer from "rc-footer"
 import "rc-footer/assets/index.css"
@@ -131,33 +132,70 @@ const MenuSide = (props) => {
   const currentUser = useCurrentUser()
   const [current, setCurrent] = useState(props.title)
   const { affixed } = props
-  const sideData = [
-    {
-      name: "首页",
-      icon: <HomeOutlined />,
-      href: Routes.Home(),
-    },
-    {
-      name: "问投",
-      icon: <QuestionCircleOutlined />,
-      href: Routes.QuestionsPage(),
-    },
-    {
-      name: "职位",
-      icon: <ReconciliationOutlined />,
-      href: Routes.RecruitsPage(),
-    },
-    {
-      name: "简历",
-      icon: <HighlightOutlined />,
-      href: Routes.ResumePage(),
-    },
-    {
-      name: "分析",
-      icon: <LineChartOutlined />,
-      href: Routes.Analysis(),
-    },
-  ]
+  let sideData = []
+
+  if (currentUser?.role === "admin") {
+    sideData = [
+      {
+        name: "首页",
+        icon: <HomeOutlined />,
+        href: Routes.Home(),
+      },
+      {
+        name: "问投",
+        icon: <QuestionCircleOutlined />,
+        href: Routes.QuestionsPage(),
+      },
+      {
+        name: "职位",
+        icon: <ReconciliationOutlined />,
+        href: Routes.RecruitsPage(),
+      },
+      {
+        name: "简历",
+        icon: <HighlightOutlined />,
+        href: Routes.ResumePage(),
+      },
+      {
+        name: "分析",
+        icon: <LineChartOutlined />,
+        href: Routes.Analysis(),
+      },
+      {
+        name: "管理",
+        icon: <MacCommandOutlined />,
+        href: Routes.Admin(),
+      },
+    ]
+  } else {
+    sideData = [
+      {
+        name: "首页",
+        icon: <HomeOutlined />,
+        href: Routes.Home(),
+      },
+      {
+        name: "问投",
+        icon: <QuestionCircleOutlined />,
+        href: Routes.QuestionsPage(),
+      },
+      {
+        name: "职位",
+        icon: <ReconciliationOutlined />,
+        href: Routes.RecruitsPage(),
+      },
+      {
+        name: "简历",
+        icon: <HighlightOutlined />,
+        href: Routes.ResumePage(),
+      },
+      {
+        name: "分析",
+        icon: <LineChartOutlined />,
+        href: Routes.Analysis(),
+      },
+    ]
+  }
   return (
     <div
       style={{

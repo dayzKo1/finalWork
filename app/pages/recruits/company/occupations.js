@@ -15,6 +15,7 @@ import {
   Divider,
   Descriptions,
   Badge,
+  Select,
 } from "antd"
 import { LoadingOutlined } from "@ant-design/icons"
 import { FixedSizeList as List } from "react-window"
@@ -33,6 +34,9 @@ import deleteCollect from "app/collects/mutations/deleteCollect"
 import updateApply from "app/applies/mutations/updateApply"
 
 import getResumes from "app/resumes/queries/getResumes"
+import { toast } from "@chakra-ui/react"
+
+const { Option } = Select
 
 export const AppliesList = () => {
   const [updateApplyMutation] = useMutation(updateApply)
@@ -202,7 +206,8 @@ export const AppliesList = () => {
           <Button type="primary" href="https://mail.qq.com/" target="_blank">
             沟通
           </Button>
-          <Button
+
+          {/* <Button
             type="primary"
             danger
             onClick={() => {
@@ -213,7 +218,28 @@ export const AppliesList = () => {
             disabled={click.includes(v)}
           >
             {click.includes(v) === true ? "已拒绝" : "拒绝"}
-          </Button>
+          </Button> */}
+          <Select
+            style={{ width: 150, height: 40, fontSize: 18 }}
+            onChange={(value) => {
+              updateApplyMutation({ id: v, status: value })
+            }}
+            defaultValue={row.status}
+            placeholder={row.status}
+          >
+            <Option key={0} value="待定">
+              待定
+            </Option>
+            <Option key={1} value="材料不足">
+              材料不足
+            </Option>
+            <Option key={2} value="录取">
+              录取
+            </Option>
+            <Option key={3} value="拒绝">
+              拒绝
+            </Option>
+          </Select>
         </Space>
       ),
     },
