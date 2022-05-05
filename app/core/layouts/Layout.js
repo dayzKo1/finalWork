@@ -134,7 +134,7 @@ const MenuSide = (props) => {
   const { affixed } = props
   let sideData = []
 
-  if (currentUser?.role === "admin") {
+  if (currentUser?.role === "ADMIN") {
     sideData = [
       {
         name: "首页",

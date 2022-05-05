@@ -28,8 +28,8 @@ const Admin: BlitzPage = () => {
       case "COMPANY":
         formRef.current!.setFieldsValue({ role: "COMPANY" })
         return
-      case "admin":
-        formRef.current!.setFieldsValue({ role: "admin" })
+      case "ADMIN":
+        formRef.current!.setFieldsValue({ role: "ADMIN" })
     }
   }
 
@@ -177,7 +177,7 @@ const Admin: BlitzPage = () => {
                   <Option key="COMPANY" value="COMPANY">
                     企业
                   </Option>
-                  <Option key="admin" value="admin">
+                  <Option key="ADMIN" value="ADMIN">
                     管理员
                   </Option>
                 </Select>

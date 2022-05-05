@@ -140,6 +140,29 @@ export const RecruitsList = () => {
     })
   }
 
+  const frquency = {}
+  applies.forEach((ele) => {
+    if (frquency.hasOwnProperty(ele.recruitId)) {
+      frquency[ele.recruitId] += 1
+    } else {
+      frquency[ele.recruitId] = 1
+    }
+  })
+
+  const avaiStatus = (avai, index) => {
+    let max = 0
+    if (avai.indexOf("~") !== -1) {
+      max = avai?.split("~")[1]?.replace("人", "")
+    } else {
+      max = 50
+    }
+    if (frquency[index] >= max) {
+      return " (职位已下架)"
+    } else {
+      return " (职位活跃中)"
+    }
+  }
+
   const Row = ({ index, style }) => (
     <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
       <Card
@@ -167,6 +190,7 @@ export const RecruitsList = () => {
               {recruitData[index]?.city} <Divider type="vertical" />
               {recruitData[index]?.year} <Divider type="vertical" />
               {recruitData[index]?.educ} <Divider type="vertical" />招{recruitData[index]?.avai}
+              {avaiStatus(recruitData[index]?.avai, index)}
             </div>
             <div style={{ padding: 12 }}>
               {recruitData[index]?.user?.name}

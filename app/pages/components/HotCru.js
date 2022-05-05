@@ -31,7 +31,6 @@ const HotRru = () => {
       return frquency[b] - frquency[a]
     })
     .slice(0, 6)
-
   const hotData = recruits.filter((item) => top6.includes(item.id.toString()))
   return (
     <div style={{ width: 1200 }}>

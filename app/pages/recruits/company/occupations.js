@@ -340,7 +340,8 @@ export const AppliesList = () => {
             {resumeData && resumeData[0]?.gender}
           </Descriptions.Item>
           <Descriptions.Item label="求职状态" span={1}>
-            <Badge status="processing" text={resumeData && recruitData[0]?.status} />
+            {/* <Badge status="processing" text={resumeData && recruitData[0]?.status} /> */}
+            {resumeData && recruitData[0]?.status}
           </Descriptions.Item>
           <Descriptions.Item label="求职意向" span={1}>
             {resumeData && resumeData[0]?.prefer}
