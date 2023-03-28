@@ -76,6 +76,7 @@ export const SignupForm = (props) => {
             password: "",
             role: props.edit ? currentUser?.role : "USER",
             name: props.edit ? currentUser?.name : "",
+            companyIntro: props.edit ? currentUser?.companyIntro : "",
             companyKind: props.edit ? currentUser?.companyKind : "",
             companySize: props.edit ? currentUser?.companySize : "",
           }}
@@ -108,13 +109,18 @@ export const SignupForm = (props) => {
 
           {!props.edit && <InputControl name="password" label="密码" type="password" />}
 
-          <div>
-            <label>类型</label>
-            <Field name="role" component="select" style={style}>
-              <option value="USER">用户</option>
-              <option value="COMPANY">企业</option>
-            </Field>
-          </div>
+          {!props.edit && (
+            <div>
+              <label>类型</label>
+              <Field name="role" component="select" style={style}>
+                <option value="USER">求职者</option>
+                <option value="COMPANY">招聘者</option>
+              </Field>
+            </div>
+          )}
+          <Condition when="role" is="COMPANY">
+            <InputControl name="companyIntro" label="公司简介" />
+          </Condition>
 
           <Condition when="role" is="COMPANY">
             <label>公司性质</label>

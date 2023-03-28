@@ -1,14 +1,5 @@
 import React, { Suspense, useState } from "react"
-import {
-  Head,
-  Link,
-  usePaginatedQuery,
-  useRouter,
-  BlitzPage,
-  Routes,
-  SecurePassword,
-  useMutation,
-} from "blitz"
+import { Head, usePaginatedQuery, BlitzPage, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { Form, Card, Table, Button, Space, Modal, message, Input, Select } from "antd"
 import deleteUser from "app/auth/mutations/deleteUser"
@@ -20,7 +11,7 @@ const { Option } = Select
 
 const Admin: BlitzPage = () => {
   const formRef = React.createRef<FormInstance>()
-  const onChange = (value) => {
+  const onChange = (value: any) => {
     switch (value) {
       case "USER":
         formRef.current!.setFieldsValue({ role: "USER" })
@@ -44,7 +35,7 @@ const Admin: BlitzPage = () => {
   const [deleteUserMutation] = useMutation(deleteUser)
 
   const [visible, setVisble] = useState(0)
-  const onFinish = (values, id) => {
+  const onFinish = (values: any, id: any) => {
     editAdminMutation({ id, ...values })
     setVisble(0)
     message.success("保存成功")
@@ -65,9 +56,9 @@ const Admin: BlitzPage = () => {
 
   const kinds = ["国企", "外企", "合资", "民营", "上市公司", "股份制企业", "事业单位", "其他"]
 
-  const renderOptions = (arr) =>
+  const renderOptions = (arr: any) =>
     arr &&
-    arr.map((item, index) => {
+    arr.map((item: any, index: any) => {
       return (
         <Option key={index} value={item}>
           {item}
@@ -109,7 +100,7 @@ const Admin: BlitzPage = () => {
       title: "操作",
       key: "id",
       dataIndex: "id",
-      render: (v, row) => (
+      render: (v: any, row: any) => (
         <Space>
           <Button
             type="primary"
@@ -153,6 +144,7 @@ const Admin: BlitzPage = () => {
                 email: row.email,
                 password: "",
                 role: row.role,
+                companyIntro: row?.companyIntro,
                 companyKind: row?.companyKind,
                 companySize: row?.companySize,
               }}
@@ -172,10 +164,10 @@ const Admin: BlitzPage = () => {
               <Form.Item label="账号类型" name="role">
                 <Select onChange={onChange}>
                   <Option key="USER" value="USER">
-                    用户
+                    求职者
                   </Option>
                   <Option key="COMPANY" value="COMPANY">
-                    企业
+                    招聘者
                   </Option>
                   <Option key="ADMIN" value="ADMIN">
                     管理员
@@ -191,6 +183,9 @@ const Admin: BlitzPage = () => {
                 {({ getFieldValue }) =>
                   getFieldValue("role") === "COMPANY" ? (
                     <>
+                      <Form.Item label="企业简介" name="companyIntro">
+                        <Input />
+                      </Form.Item>
                       <Form.Item label="企业类型" name="companyKind">
                         <Select>{renderOptions(kinds)}</Select>
                       </Form.Item>
@@ -201,7 +196,7 @@ const Admin: BlitzPage = () => {
                   ) : null
                 }
               </Form.Item>
-              <Form.Item style={{ cssFloat: "right" }}>
+              <Form.Item style={{ display: "flex", justifyContent: "flex-end", marginBottom: -10 }}>
                 <Button type="primary" htmlType="submit">
                   保存
                 </Button>

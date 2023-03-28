@@ -5,7 +5,7 @@ import { editUser } from "../validations"
 export default resolver.pipe(
   // resolver.zod(editUser),
   resolver.authorize(),
-  async ({ id, email, name, role, password, companyKind, companySize }, ctx) => {
+  async ({ id, email, name, role, password, comapnyIntro, companyKind, companySize }, ctx) => {
     let hashedPassword = ""
     if (password) {
       hashedPassword = await SecurePassword.hash(password.trim())
@@ -23,6 +23,7 @@ export default resolver.pipe(
         role,
         email: email.toLowerCase().trim(),
         name,
+        comapnyIntro,
         companyKind,
         companySize,
         hashedPassword: hashedPassword === "" ? user.hashedPassword : hashedPassword,

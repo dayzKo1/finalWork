@@ -2,7 +2,7 @@ import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import { Button, List, Divider, Card, Row, Col, Table } from "antd"
 import getRecruits from "app/recruits/queries/getRecruits"
 import getApplies from "app/applies/queries/getApplies"
-import { getDate } from "../util/utils"
+import { getDate } from "app/util/utils"
 
 const Graph2 = () => {
   const [{ applies }] = usePaginatedQuery(getApplies, {

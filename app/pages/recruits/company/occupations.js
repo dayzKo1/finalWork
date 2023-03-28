@@ -1,4 +1,4 @@
-import { Suspense, useState, useReducer } from "react"
+import { Suspense, useState, useReducer, useCallback } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Image, useMutation } from "blitz"
 
 import Layout from "app/core/layouts/Layout"
@@ -19,7 +19,7 @@ import {
 } from "antd"
 import { LoadingOutlined } from "@ant-design/icons"
 import { FixedSizeList as List } from "react-window"
-import SideCards from "app/pages/components/SideCards"
+import SideCards from "app/components/SideCards"
 const { Search } = Input
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 
@@ -198,14 +198,37 @@ export const AppliesList = () => {
       ),
     },
     {
-      title: "操作",
+      title: "申请状态",
       key: "control",
       dataIndex: "applyId",
+      filters: [
+        {
+          text: "待定",
+          value: "待定",
+        },
+        {
+          text: "材料不足",
+          value: "材料不足",
+        },
+        {
+          text: "录取",
+          value: "录取",
+        },
+        {
+          text: "拒绝",
+          value: "拒绝",
+        },
+        {
+          text: "材料已补",
+          value: "材料已补",
+        },
+      ],
+      onFilter: (value, record) => record.status.indexOf(value) === 0,
       render: (v, row) => (
         <Space size="middle">
-          <Button type="primary" href="https://mail.qq.com/" target="_blank">
+          {/* <Button type="primary" href="https://mail.qq.com/" target="_blank">
             沟通
-          </Button>
+          </Button> */}
 
           {/* <Button
             type="primary"
@@ -238,6 +261,9 @@ export const AppliesList = () => {
             </Option>
             <Option key={3} value="拒绝">
               拒绝
+            </Option>
+            <Option key={4} value="材料已补">
+              材料已补
             </Option>
           </Select>
         </Space>
@@ -312,6 +338,23 @@ export const AppliesList = () => {
     },
   ]
 
+  const [search, setSearch] = useState("")
+  const onSearch = useCallback(
+    (value) => {
+      setRecruData(
+        recruits
+          .filter((item, index) => {
+            return item.userId === currentUser.id
+          })
+          .filter((item, index, arr) => {
+            return item.name.indexOf(value) + 1 || item.user.name.indexOf(value) + 1
+          })
+      )
+      setSearch(value)
+    },
+    [currentUser, recruits]
+  )
+
   return (
     <>
       <Modal
@@ -322,7 +365,12 @@ export const AppliesList = () => {
         footer={false}
         width={600}
       >
-        <Table columns={columns} dataSource={applierData} pagination={false}></Table>
+        <Table
+          columns={columns}
+          dataSource={applierData}
+          pagination={false}
+          rowKey={(r) => r.id}
+        ></Table>
       </Modal>
       <Modal
         title="简历"
@@ -374,7 +422,20 @@ export const AppliesList = () => {
         ,
       </Modal>
 
-      <h2 style={{ color: "wheat", marginTop: 15, textAlign: "center" }}>我的职位</h2>
+      <h2 style={{ marginTop: 15, textAlign: "center" }}>我的职位</h2>
+
+      <div>
+        <Search
+          placeholder="搜索关键词"
+          allowClear
+          enterButton="搜索"
+          size="large"
+          onSearch={(e) => onSearch(e)}
+          onChange={(e) => onSearch(e.target.value)}
+          style={{ width: 1065, margin: 20 }}
+          value={search}
+        />
+      </div>
       <div
         style={{
           display: "flex",

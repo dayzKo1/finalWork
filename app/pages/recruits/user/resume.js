@@ -11,7 +11,7 @@ import NoteControl from "app/core/components/NoteControl"
 import updateResume from "app/resumes/mutations/updateResume"
 import createResume from "app/resumes/mutations/createResume"
 
-import UploadImage from "app/pages/components/UploadImage"
+import UploadImage from "app/components/UploadImage"
 
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 
@@ -43,6 +43,7 @@ export const ResumeList = () => {
             name: isExist ? currentUser.Resume[0].name : "",
             gender: isExist ? currentUser.Resume[0].gender : "",
             age: isExist ? currentUser.Resume[0].age : "",
+            number: isExist ? currentUser.Resume[0].number : "",
             status: isExist ? currentUser.Resume[0].status : "",
             prefer: isExist ? currentUser.Resume[0].prefer : "",
             advance: isExist ? currentUser.Resume[0].advance : "",

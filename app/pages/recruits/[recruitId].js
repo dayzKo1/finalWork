@@ -20,7 +20,7 @@ import getApplies from "app/applies/queries/getApplies"
 import createCollect from "app/collects/mutations/createCollect"
 import getCollects from "app/collects/queries/getCollects"
 import deleteCollect from "app/collects/mutations/deleteCollect"
-import { getDate } from "app/pages/util/utils"
+import { getDate } from "app/util/utils"
 
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 export const Recruit = () => {
@@ -79,6 +79,7 @@ export const Recruit = () => {
             <Descriptions.Item label="邮箱">{recruit?.user?.email}</Descriptions.Item>
             <Descriptions.Item label="公司性质">{recruit?.user?.companyKind}</Descriptions.Item>
             <Descriptions.Item label="公司规模">{recruit?.user?.companySize}</Descriptions.Item>
+            <Descriptions.Item label="公司简介">{recruit?.user?.companyIntro}</Descriptions.Item>
           </Descriptions>
         </Card>
         <Card style={{ marginTop: 20 }}>

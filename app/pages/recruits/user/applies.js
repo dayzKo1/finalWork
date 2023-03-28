@@ -1,4 +1,4 @@
-import { Suspense, useState, useReducer } from "react"
+import { Suspense, useState, useReducer, useCallback } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Image, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getRecruits from "app/recruits/queries/getRecruits"
@@ -11,11 +11,13 @@ import createCollect from "app/collects/mutations/createCollect"
 import getCollects from "app/collects/queries/getCollects"
 import deleteCollect from "app/collects/mutations/deleteCollect"
 import { FixedSizeList as List } from "react-window"
-import SideCards from "app/pages/components/SideCards"
+import SideCards from "app/components/SideCards"
+import updateApply from "app/applies/mutations/updateApply"
 const { Search } = Input
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 
 export const AppliesList = () => {
+  const [updateApplyMutation] = useMutation(updateApply)
   const router = useRouter()
   const currentUser = useCurrentUser()
   const [Applied, setApplied] = useState(false)
@@ -30,6 +32,22 @@ export const AppliesList = () => {
   })
   const [page, setPage] = useState(0)
   const [search, setSearch] = useState("")
+
+  const onSearch = useCallback(
+    (value) => {
+      setRecruData(
+        recruits
+          .filter((item, index) => {
+            return status(applies, currentUser, recruits[index])
+          })
+          .filter((item, index, arr) => {
+            return item.name.indexOf(value) + 1 || item.user.name.indexOf(value) + 1
+          })
+      )
+      setSearch(value)
+    },
+    [applies, currentUser, recruits]
+  )
 
   const [{ recruits, count }] = usePaginatedQuery(getRecruits, {
     orderBy: {
@@ -111,16 +129,16 @@ export const AppliesList = () => {
               <>
                 <Button
                   style={{ marginRight: 10, width: 64, padding: 2 }}
-                  type="primary"
+                  type="secondary"
                   onClick={async () => {
-                    await createApplication({
-                      userId: currentUser?.id,
-                      recruitId: recruitData[index]?.id,
-                    })
-                    setApplied(!Applied)
-                    message.success("申请成功")
+                    // await createApplication({
+                    //   userId: currentUser?.id,
+                    //   recruitId: recruitData[index]?.id,
+                    // })
+                    // setApplied(!Applied)
+                    // message.success("申请成功")
                   }}
-                  disabled={status(applies, currentUser, recruitData[index])}
+                  // disabled={status(applies, currentUser, recruitData[index])}
                 >
                   {
                     Object.values(applies).filter(
@@ -132,7 +150,31 @@ export const AppliesList = () => {
                   }
                 </Button>
 
-                <Button
+                {Object.values(applies).filter(
+                  (item) =>
+                    item.userId === currentUser.id &&
+                    item.recruitId === recruitData[index]?.id &&
+                    status
+                )[0].status === "材料不足" && (
+                  <Button
+                    style={{ width: 64, padding: 2 }}
+                    type="primary"
+                    onClick={async () => {
+                      await updateApplyMutation({
+                        id: Object.values(applies).filter(
+                          (item) =>
+                            item.userId === currentUser.id &&
+                            item.recruitId === recruitData[index]?.id &&
+                            status
+                        )[0].id,
+                        status: "材料已补",
+                      })
+                    }}
+                  >
+                    材料已补
+                  </Button>
+                )}
+                {/* <Button
                   style={{ width: 64, padding: 2 }}
                   type="primary"
                   danger={status(collects, currentUser, recruitData[index])}
@@ -155,7 +197,7 @@ export const AppliesList = () => {
                   }}
                 >
                   {status(collects, currentUser, recruitData[index]) ? "收藏√" : "收藏"}
-                </Button>
+                </Button> */}
               </>
             )}
           </div>
@@ -166,7 +208,19 @@ export const AppliesList = () => {
 
   return (
     <>
-      <h2 style={{ color: "wheat", marginTop: 15, textAlign: "center" }}>我的申请</h2>
+      <h2 style={{ marginTop: 15, textAlign: "center" }}>我的申请</h2>
+      <div>
+        <Search
+          placeholder="搜索关键词"
+          allowClear
+          enterButton="搜索"
+          size="large"
+          onSearch={(e) => onSearch(e)}
+          onChange={(e) => onSearch(e.target.value)}
+          style={{ width: 1065, margin: 20 }}
+          value={search}
+        />
+      </div>
       <div
         style={{
           display: "flex",
@@ -199,7 +253,7 @@ export const AppliesList = () => {
               margin: 10,
             }}
           >
-            <div style={{ marginRight: 10, marginTop: 5, color: "white" }}>{`共 ${
+            <div style={{ marginRight: 10, marginTop: 5 }}>{`共 ${
               recruitData.length ?? 0
             } 项`}</div>
             {currentUser?.role === "COMPANY" && (

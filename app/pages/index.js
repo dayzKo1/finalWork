@@ -17,8 +17,8 @@ import Layout from "app/core/layouts/Layout"
 import Item from "antd/lib/list/Item"
 import { set } from "zod"
 
-import HotRru from "app/pages/components/HotCru"
-import HotCollect from "app/pages/components/HotCollect"
+import HotRru from "app/components/HotCru"
+import HotCollect from "app/components/HotCollect"
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 const { TabPane } = Tabs
 const { Search } = Input

@@ -12,7 +12,7 @@ import getCollects from "app/collects/queries/getCollects"
 import deleteCollect from "app/collects/mutations/deleteCollect"
 import { FixedSizeList as List } from "react-window"
 import { useLayoutEffect } from "react-layout-effect"
-import SideCards from "../components/SideCards"
+import SideCards from "app/components/SideCards"
 
 const { Search } = Input
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />

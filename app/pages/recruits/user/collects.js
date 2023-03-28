@@ -1,4 +1,4 @@
-import { Suspense, useState, useReducer } from "react"
+import { Suspense, useState, useReducer, useCallback } from "react"
 import { Head, Link, usePaginatedQuery, useRouter, Routes, Image, useMutation } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getRecruits from "app/recruits/queries/getRecruits"
@@ -11,7 +11,8 @@ import createCollect from "app/collects/mutations/createCollect"
 import getCollects from "app/collects/queries/getCollects"
 import deleteCollect from "app/collects/mutations/deleteCollect"
 import { FixedSizeList as List } from "react-window"
-import SideCards from "app/pages/components/SideCards"
+import SideCards from "app/components/SideCards"
+import reactDom from "react-dom"
 const { Search } = Input
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 
@@ -30,6 +31,22 @@ export const CollectsList = () => {
   })
   const [page, setPage] = useState(0)
   const [search, setSearch] = useState("")
+
+  const onSearch = useCallback(
+    (value) => {
+      setRecruData(
+        recruits
+          .filter((item, index) => {
+            return status(collects, currentUser, recruits[index])
+          })
+          .filter((item, index, arr) => {
+            return item.name.indexOf(value) + 1 || item.user.name.indexOf(value) + 1
+          })
+      )
+      setSearch(value)
+    },
+    [collects, currentUser, recruits]
+  )
   const [{ recruits, count }] = usePaginatedQuery(getRecruits, {
     orderBy: {
       id: "asc",
@@ -109,7 +126,7 @@ export const CollectsList = () => {
           >
             {currentUser?.role === "USER" && (
               <>
-                <Button
+                {/* <Button
                   style={{ marginRight: 10, width: 64, padding: 2 }}
                   type="primary"
                   onClick={async () => {
@@ -123,7 +140,7 @@ export const CollectsList = () => {
                   disabled={status(applies, currentUser, recruitData[index])}
                 >
                   {status(applies, currentUser, recruitData[index]) ? "已申请" : "申请"}
-                </Button>
+                </Button> */}
 
                 <Button
                   style={{ width: 64, padding: 2 }}
@@ -159,7 +176,19 @@ export const CollectsList = () => {
 
   return (
     <>
-      <h2 style={{ color: "wheat", marginTop: 15 }}>我的收藏</h2>
+      <h2 style={{ marginTop: 15 }}>我的收藏</h2>
+      <div>
+        <Search
+          placeholder="搜索关键词"
+          allowClear
+          enterButton="搜索"
+          size="large"
+          onSearch={(e) => onSearch(e)}
+          onChange={(e) => onSearch(e.target.value)}
+          style={{ width: 1065, margin: 20 }}
+          value={search}
+        />
+      </div>
       <div
         style={{
           display: "flex",

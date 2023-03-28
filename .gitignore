@@ -13,8 +13,7 @@ web_modules/
 # blitz
 /.blitz/
 /.next/
-*.sqlite
-*.sqlite-journal
+
 .now
 .blitz**
 blitz-log.log

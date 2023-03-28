@@ -4,7 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getQuestions from "app/questions/queries/getQuestions"
 import { Button, List, Divider, Card } from "antd"
 import { LoadingOutlined } from "@ant-design/icons"
-import { getDate } from "../util/utils"
+import { getDate } from "app/util/utils"
 
 const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />
 

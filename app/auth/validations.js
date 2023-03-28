@@ -15,6 +15,7 @@ export const Signup = z.object({
   name: z.string(),
   companyKind: z.string(),
   companySize: z.string(),
+  companyIntro: z.string(),
 })
 export const Login = z.object({
   email,

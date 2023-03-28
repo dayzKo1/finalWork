@@ -1,7 +1,7 @@
 import { Head, Link, usePaginatedQuery, useRouter, Routes } from "blitz"
 import { Button, List, Divider, Card, Row, Col, Table } from "antd"
 import getRecords from "app/users/queries/getRecords"
-import { getDate } from "../util/utils"
+import { getDate } from "app/util/utils"
 
 const columns = [
   {
@@ -11,14 +11,14 @@ const columns = [
   {
     title: "用户类型",
     dataIndex: ["user", "role"],
-    render: (v) => (v === "USER" ? "求职者" : "企业"),
+    render: (v) => (v === "USER" ? "求职者" : "招聘者"),
     filters: [
       {
         text: "求职者",
         value: "USER",
       },
       {
-        text: "企业",
+        text: "招聘者",
         value: "COMPANY",
       },
     ],
