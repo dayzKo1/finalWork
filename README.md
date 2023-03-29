@@ -45,4 +45,3 @@ blitz generate crud choice text votes:int:default=0 belongsTo:question
 二、Q&A：
 1、AntDesign 组件触发 useEffectLayout warning <https://github.com/ant-design/ant-design/issues/30396>
 解决方案：React.useLayoutEffect = React.useEffect;
-2、
