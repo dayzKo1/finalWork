@@ -1,3 +1,5 @@
+http://linhonghaodebishe3000.frp.codefriend.top/
+
 一、常用指令:
 
 blitz dev 启动
